@@ -1,0 +1,189 @@
+# Shows the version of the config
+# NOTE: DO NOT CHANGE THIS!
+config-version: 1
+
+# If set to 'true', a notification and a download link will be printed on both console and in-game when a new update is available.
+# default: true
+check-for-updates: true
+
+
+
+
+game:
+  # The time you wait before the fight begins
+  # default: 5
+  waiting-time: 5
+
+
+  # The time before the battle ends
+  # default: 10
+  ending-time: 10
+
+
+  # Set the gamemode after the games end starts and joins
+  # default: SURVIVAL
+  gamemode: SURVIVAL
+
+
+  # Set if in game a scoreboard is shown
+  # default: true
+  scoreboard: true
+
+
+
+
+items:
+  # Edit the play again item at the end of the battle
+  # NOTE: you can disable it by settings the item to air
+  play-again-item:
+      material: PAPER
+      displayname: '&3§lPlay Again §7(Right-Click)'
+      lore:
+        - '&7Right click this item,'
+        - '&7to play again.'
+      slot: 7
+
+
+  # Edit the leave item at the end of the battle
+  # NOTE: you can disable it by settings the item to air
+  leave-match-item:
+      material: RED_BED
+      displayname: '&4§lLeave §7(Right-Click)'
+      lore:
+        - '&7Right click this item,'
+        - '&7to get back to lobby.'
+      slot: 8
+  # Set the default item for the arenas in the inventory's if no item is set
+  # default: GRASS_BLOCK
+  default-arena-item: GRASS_BLOCK
+
+
+  # Set the default item for the kits in the inventory's if no item is set
+  # default: IRON_SWORD
+  default-kit-item: IRON_SWORD
+
+
+lists:
+  # All world names where you cant duel players
+  banned-worlds:
+    - 'banned_wold_name_here'
+
+  # All commands that the players cant use during a duel
+  blacklisted-commands:
+    - 'heal'
+    - 'eheal'
+    - 'essentials:heal'
+    - 'essentials:eheal'
+    - 'kit'
+    - 'ekit'
+    - 'kits'
+    - 'ekits'
+    - 'essentials:kit'
+    - 'essentials:ekit'
+    - 'essentials:kits'
+    - 'essentials:ekits'
+    - 'enderchest'
+    - 'echest'
+    - 'eechest'
+    - 'eenderchest'
+    - 'endersee'
+    - 'eendersee'
+    - 'ec'
+    - 'eec'
+    - 'essentials:enderchest'
+    - 'essentials:echest'
+    - 'essentials:eechest'
+    - 'essentials:eenderchest'
+    - 'essentials:endersee'
+    - 'essentials:eendersee'
+    - 'essentials:ec'
+    - 'essentials:eec'
+    - 'tpaccept'
+    - 'etpaccept'
+    - 'tpyes'
+    - 'etpyes'
+    - 'essentials:tpaccept'
+    - 'essentials:etpaccept'
+    - 'essentials:tpyes'
+    - 'essentials:etpyes'
+    - 'tpahere'
+    - 'etpahere'
+    - 'essentials:tpahere'
+    - 'essentials:etpahere'
+    - 'back'
+    - 'eback'
+    - 'return'
+    - 'ereturn'
+    - 'essentials:back'
+    - 'essentials:eback'
+    - 'essentials:return'
+    - 'essentials:ereturn'
+    - 'sethome'
+    - 'esethome'
+    - 'createhome'
+    - 'ecreatehome'
+    - 'essentials:sethome'
+    - 'essentials:esethome'
+    - 'essentials:createhome'
+    - 'essentials:ecreatehome'
+    - 'spawn'
+    - 'lobby'
+    - 'hub'
+    - 'l'
+    - 'espawn'
+    - 'essentials:spawn'
+    - 'essentials:espawn'
+    - 'vault'
+    - 'chest'
+    - 'pv'
+    - 'playervaults'
+    - 'playervaults:vault'
+    - 'playervaults:chest'
+    - 'playervaults:pv'
+    - 'playervaults:playervaults'
+
+  # List of all the items that the players can use during the waiting phase
+  allowed-items:
+    - GOLDEN_APPLE
+    - SPLASH_POTION
+    - POTION
+    - LINGERING_POTION
+    - ENCHANTED_GOLDEN_APPLE
+    - EXPERIENCE_BOTTLE
+    - FISHING_ROD
+
+
+
+layout:
+  # Change whether the arena or kit icons should show the icon or the default item in the duel inventory. When enabled, the icons are displayed
+  # default: true
+  use-icon-items: true
+
+
+
+
+permissions:
+  # Use permission for '/duel' command.
+  # default: false
+  need-duel-command-permission: false
+
+  # Permission for '/duel' command.
+  # NOTE: This does only work if 'duel-command-permission' is enabled
+  duel-command-permission: duels.duel-command
+
+
+  # Use permission for '/duels' command.
+  # default: true
+  # NOTE: THIS SHOULD ALWAYS BE TRUE BECAUSE THEN EVERY PLAYER CAN EDIT THE WHOLE PLUGIN
+  need-duels-command-permission: true
+
+  # Permission for '/duels' command.
+  # NOTE: This does only work if 'duels-command-permission' is enabled
+  duels-command-permission: duels.duels-command
+
+
+
+stats:
+  # Configure the default stats than every user will get by first joining the server.
+  # default: 1000
+  rating-default: 1000
