@@ -23,6 +23,7 @@ import de.theredend2000.duels.queue.QueueManager;
 import de.theredend2000.duels.stats.StatsManager;
 import de.theredend2000.duels.util.BlockUtils;
 import de.theredend2000.duels.util.HelpManager;
+import de.theredend2000.duels.util.MessageManager;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
@@ -60,6 +61,8 @@ public final class Main extends JavaPlugin {
     private ScoreboardManagers scoreboardManagers;
     private StatsManager statsManager;
     private QueueManager queueManager;
+    private MessageManager messageManager;
+
     @Override
     public void onEnable() {
         plugin = this;
@@ -85,6 +88,7 @@ public final class Main extends JavaPlugin {
     }
 
     private void initManagers(){
+        messageManager = new MessageManager();
         scoreboardManagers = new ScoreboardManagers();
         scoreboardManagers.updateScoreboard();
         arenaManager = new ArenaManager();
@@ -276,5 +280,9 @@ public final class Main extends JavaPlugin {
 
     public SpecialsManager getSpecialsManager() {
         return specialsManager;
+    }
+
+    public MessageManager getMessageManager() {
+        return messageManager;
     }
 }
