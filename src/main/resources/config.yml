@@ -30,6 +30,14 @@ game:
   scoreboard: true
 
 
+  # Configure the firework at the end of the game
+  # default: true
+  end-firework:
+    enabled: true
+    power: 1 # How height the fireworks fly
+    count: 5 # How many fireworks should spawn per second
+
+
 
 
 items:
@@ -160,6 +168,17 @@ layout:
   use-icon-items: true
 
 
+  # Shows the player stats in all duels inventory's
+  show-stats-on-playerhead:
+    enabled: true
+    type: ALL # Available types: [ALL, OPERATOR, PERMISSION, NONE] (permission can be found in the permission section)
+
+
+  # Send actionbar if the player is in a queue for an arena
+  # default: true
+  send-actionbar-when-queue: true
+
+
 
 
 permissions:
@@ -182,8 +201,43 @@ permissions:
   duels-command-permission: duels.duels-command
 
 
+  # This permission shows the players stats in the inventory of the duels
+  # NOTE: This permission does only works if 'show-stats-on-playerhead.types' equals to PERMISSION
+  show-stats-on-playerhead-permission: duels.show-stats
+
+
 
 stats:
   # Configure the default stats than every user will get by first joining the server.
   # default: 1000
   rating-default: 1000
+
+
+messages:
+  # If a player dies in the duel to a specific case, the right message will be sent in the chat.
+  # NOTE: %death% -> player who died; %killer% player who killed the other (CAN ONLY BE USED IN ENTITY_ATTACK)
+  deaths:
+    fall: "&4%death% &7fell from a height place."
+    fire: "&4%death% &7burned alive."
+    lava: "&4%death% &7tried to swim in lava. :|"
+    void: "&4%death% &7fell out of the real world."
+    magic: "&4%death% &7was hit by crazy magic."
+    poison: "&4%death% &7died from too much poison."
+    wither: "&4%death% &7liked the wither too much."
+    drowning: "&4%death% &7loves water, but is not a fish."
+    fire_tick: "&4%death% &7burned in to much fire."
+    lightning: "&4%death% &7was killed by a crazy lightning bolt."
+    projectile: "&4%death% &7was shot by an arrow that was to powerful for him."
+    suffocation: "&4%death% &7suffocated in a hard wall."
+    entity_attack: "&4%death% &7was destroyed by &2%killer%."
+    falling_block: "&4%death% &7broke his head when something fell on him."
+    block_explosion: "&4%death% &7blow up."
+    entity_explosion: "&4%death% &7blow up."
+
+
+  # Change the chat message layout which is only shown for player in game.
+  # default: true
+  player-chat-message:
+    enabled: true # If 'true' players can chat
+    # Replacements: '%player% -> player name; %message% -> message
+    layout: "&6%player% &7>> &f%message%"

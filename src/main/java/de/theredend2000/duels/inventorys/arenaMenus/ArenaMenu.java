@@ -3,6 +3,7 @@ package de.theredend2000.duels.inventorys.arenaMenus;
 import de.theredend2000.duels.inventorys.PlayerMenuUtility;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
@@ -23,7 +24,7 @@ public abstract class ArenaMenu implements InventoryHolder {
     public abstract String getMenuName();
     public abstract int getSlots();
     public abstract void handleMenu(InventoryClickEvent e);
-    public abstract void setMenuItems(String opponent,String arena, String kit);
+    public abstract void setMenuItems(String opponent, String arena, String kit);
     public void open(String opponent,String arena, String kit) {
         inventory = Bukkit.createInventory(this, getSlots(), getMenuName());
 

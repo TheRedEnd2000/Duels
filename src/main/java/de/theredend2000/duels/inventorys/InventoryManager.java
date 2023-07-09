@@ -10,6 +10,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemFlag;
 
+import java.util.Collections;
 import java.util.Objects;
 
 public class InventoryManager {
@@ -45,7 +46,7 @@ public class InventoryManager {
         for (int i = 0; i<limeGlass.length;i++){inventory.setItem(limeGlass[i], new ItemBuilder(Material.LIME_STAINED_GLASS_PANE).setDisplayname("§2§lConfirm").setLocalizedName("duel.main.confirm").build());}
         int[] redGlass = new int[]{6,7,8,15,16,17,24,25,26};
         for (int i = 0; i<redGlass.length;i++){inventory.setItem(redGlass[i], new ItemBuilder(Material.RED_STAINED_GLASS_PANE).setDisplayname("§4§lCancel").setLocalizedName("duel.main.cancel").build());}
-        inventory.setItem(13,new ItemBuilder(Material.PLAYER_HEAD).setDisplayname("§6§lDuel "+dueler.getDisplayName()).setOwner(dueler.getDisplayName()).setLocalizedName(dueler.getDisplayName()).build());
+        inventory.setItem(13,new ItemBuilder(Material.PLAYER_HEAD).setDisplayname("§6§lDuel "+dueler.getDisplayName()).setOwner(dueler.getDisplayName()).setStringListLore(Main.getPlugin().getSpecialsManager().shouldShow(player) ? Main.getPlugin().getSpecialsManager().getStatsOfPlayerAsLore(dueler) : Collections.singletonList("§cStats hidden")).setLocalizedName(dueler.getDisplayName()).build());
         inventory.setItem(4,new ItemBuilder(showIcons ? Main.getPlugin().getArenaManager().getArenaMaterial(arena) : Material.getMaterial(Objects.requireNonNull(Main.getPlugin().getConfig().getString("items.default-arena-item")))).setDisplayname("§2§lArena").setLore("","§7Currently: §d§l"+arena.getName(),"","§eClick to change.").setLocalizedName("duel.main.arena").build());
         inventory.setItem(22,new ItemBuilder(showIcons ? Main.getPlugin().getKitManager().getKitMaterial(kit.getName()) : Material.getMaterial(Objects.requireNonNull(Main.getPlugin().getConfig().getString("items.default-kit-item")))).setDisplayname("§9§lKit").setLore("","§7Currently: §d§l"+kit.getName(),"","§eClick to change.").setLocalizedName("duel.main.kit").build());
         player.openInventory(inventory);

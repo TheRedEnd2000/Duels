@@ -72,23 +72,6 @@ public class ArenaManager {
         saveArenaYaml();
     }
 
-    public void loadAllArenas() {
-        Bukkit.getConsoleSender().sendMessage("\n§4§lLOADING ARENAS...");
-            if (!arenaYaml.contains("Arenas.")) return;
-            for (String arenaNames : arenaYaml.getConfigurationSection("Arenas.").getKeys(false)) {
-                Location lobby = arenaYaml.getLocation("Arenas." + arenaNames + ".lobbyLocation");
-                Location end = arenaYaml.getLocation("Arenas." + arenaNames + ".endLocation");
-                Location spawn1 = arenaYaml.getLocation("Arenas." + arenaNames + ".spawn1");
-                Location spawn2 = arenaYaml.getLocation("Arenas." + arenaNames + ".spawn2");
-                Location pos1 = arenaYaml.getLocation("Arenas." + arenaNames + ".pos1");
-                Location pos2 = arenaYaml.getLocation("Arenas." + arenaNames + ".pos2");
-                Arena arena = new Arena(arenaNames,canBeEnabled(arenaNames),new ArrayList<UUID>(), lobby,end,spawn1,spawn2,pos1,pos2,canBeEnabled(arenaNames) ? GameState.WAITING : GameState.DISABLED);
-                Main.getPlugin().getArenaManagerHashMap().put(arenaNames, arena);
-                Bukkit.getConsoleSender().sendMessage("§7Arena §a" + arenaNames + " §7loaded §2successfully§7.");
-            }
-        Bukkit.getConsoleSender().sendMessage("§2§lALL ARENAS SUCCESSFULLY LOADED!\n");
-    }
-
     public void loadAllArena() {
         Bukkit.getConsoleSender().sendMessage("\n§4§lLOADING ARENAS...");
         if (!arenaYaml.contains("Arenas.")) {
@@ -215,6 +198,15 @@ public class ArenaManager {
         double z = location.getZ();
 
         return x >= minX && x <= maxX && y >= minY && y <= maxY && z >= minZ && z <= maxZ;
+    }
+
+    public boolean isWithinArena(Location location) {
+        for (Arena arena : Main.getPlugin().getArenaManagerHashMap().values()) {
+            if (Main.getPlugin().getArenaManager().isLocationWithinArea(arena, location)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public void removeEntitiesInArena(Arena arena) {

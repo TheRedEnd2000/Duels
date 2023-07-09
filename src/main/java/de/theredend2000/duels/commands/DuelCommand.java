@@ -68,7 +68,7 @@ public class DuelCommand implements CommandExecutor, TabCompleter {
                     player.sendMessage(Main.PREFIX + "§cThis player is not available.");
                     return false;
                 }
-                if (opponent.equals(player)) {
+               if (opponent.equals(player)) {
                     player.sendMessage(Main.PREFIX + "§cYou can't duel yourself.");
                     return false;
                 }

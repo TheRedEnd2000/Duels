@@ -27,6 +27,10 @@ public class GameManager {
         sender.showPlayer(opponent);
         regeneratePlayer(sender);
         regeneratePlayer(opponent);
+        opponent.setExp(0);
+        opponent.setLevel(0);
+        sender.setLevel(0);
+        sender.setExp(0);
         int random = new Random().nextInt(2);
         if(random == 1){
             sender.teleport(arena.getSpawn1());
@@ -84,7 +88,7 @@ public class GameManager {
         }
         BlockUtils.restoreBlocks(arena);
         Main.getPlugin().getArenaManager().removeEntitiesInArena(arena);
-        Main.getPlugin().getPlayAgainHashMap().put(arena,new PlayAgain(arena,kit,winner,looser));
+        Main.getPlugin().getPlayAgainHashMap().put(arena,new PlayAgain(arena,kit,null,null));
     }
 
     public void endDuel(Arena arena){
@@ -99,6 +103,7 @@ public class GameManager {
         }
         arena.getPlayerInGame().clear();
         Main.getPlugin().getArenaKit().remove(arena);
+        Main.getPlugin().getPlayAgainHashMap().remove(arena);
     }
 
     public void endDuelWithPlayAgain(Arena arena){
@@ -111,6 +116,7 @@ public class GameManager {
         }
         arena.getPlayerInGame().clear();
         Main.getPlugin().getArenaKit().remove(arena);
+        Main.getPlugin().getPlayAgainHashMap().remove(arena);
     }
 
     public void leaveDuel(Player player,Arena arena){

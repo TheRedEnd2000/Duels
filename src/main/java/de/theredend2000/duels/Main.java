@@ -8,6 +8,7 @@ import de.theredend2000.duels.commands.DuelsCommand;
 import de.theredend2000.duels.countdowns.ArenaEndCountdown;
 import de.theredend2000.duels.countdowns.ArenaWaitingCountdown;
 import de.theredend2000.duels.extramanagers.ScoreboardManagers;
+import de.theredend2000.duels.extramanagers.SpecialsManager;
 import de.theredend2000.duels.game.GameManager;
 import de.theredend2000.duels.inventorys.InventoryManager;
 import de.theredend2000.duels.inventorys.PlayerMenuUtility;
@@ -51,6 +52,7 @@ public final class Main extends JavaPlugin {
     private GameManager gameManager;
     private InventoryManager inventoryManager;
     private ArenaWaitingCountdown arenaWaitingCountdown;
+    private SpecialsManager specialsManager;
     private ArenaEndCountdown arenaEndCountdown;
     private PlayerSavesManager playerSavesManager;
     private KitManager kitManager;
@@ -93,6 +95,7 @@ public final class Main extends JavaPlugin {
         statsManager = new StatsManager();
         queueManager = new QueueManager();
         playerSavesManager = new PlayerSavesManager();
+        specialsManager = new SpecialsManager();
         new HelpManager();
         Bukkit.getConsoleSender().sendMessage("§aAll Managers loaded.");
     }
@@ -269,5 +272,9 @@ public final class Main extends JavaPlugin {
 
     public PlayerSavesManager getPlayerSavesManager() {
         return playerSavesManager;
+    }
+
+    public SpecialsManager getSpecialsManager() {
+        return specialsManager;
     }
 }

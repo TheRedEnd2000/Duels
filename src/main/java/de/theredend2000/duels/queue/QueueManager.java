@@ -2,11 +2,19 @@ package de.theredend2000.duels.queue;
 
 import de.theredend2000.duels.Main;
 import de.theredend2000.duels.arenas.Arena;
+import net.md_5.bungee.api.ChatMessageType;
+import net.md_5.bungee.api.chat.TextComponent;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.HashMap;
 
 public class QueueManager {
+
+    public QueueManager(){
+        sendQueueMessage();
+    }
 
     public boolean isInQueue(Player player) {
         for (Arena arena : Main.getPlugin().getArenaManagerHashMap().values()) {
@@ -102,4 +110,25 @@ public class QueueManager {
             }
         }
     }
+
+    private void sendQueueMessage() {
+        Bukkit.getScheduler().scheduleSyncRepeatingTask(Main.getPlugin(), new Runnable() {
+            @Override
+            public void run() {
+                if(!Main.getPlugin().getConfig().getBoolean("layout.send-actionbar-when-queue")) return;
+                for (Queue queue : Main.getPlugin().getQueueManagerHashMap().values()) {
+                    Player player1 = queue.getPlayer1();
+                    Player player2 = queue.getPlayer2();
+
+                    if (player1 != null) {
+                        player1.spigot().sendMessage(ChatMessageType.ACTION_BAR,new TextComponent(Main.PREFIX+"§7You are currently in the §dqueue §7for the arena §e"+queue.getArena().getName()));
+                    }
+                    if (player2 != null) {
+                        player2.spigot().sendMessage(ChatMessageType.ACTION_BAR,new TextComponent(Main.PREFIX+"§7You are currently in the §dqueue §7for the arena §e"+queue.getArena().getName()));
+                    }
+                }
+            }
+        },0,20);
+    }
+
 }

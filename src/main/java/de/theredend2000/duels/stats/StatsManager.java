@@ -37,7 +37,7 @@ public class StatsManager {
         statsYaml.set("Stats."+player.getUniqueId()+".playerName",player.getName());
         statsYaml.set("Stats."+player.getUniqueId()+".rating", 1000);
         statsYaml.set("Stats."+player.getUniqueId()+".wins",0);
-        statsYaml.set("Stats."+player.getUniqueId()+".looses",0);
+        statsYaml.set("Stats."+player.getUniqueId()+".losses",0);
         statsYaml.set("Stats."+player.getUniqueId()+".kills",0);
         statsYaml.set("Stats."+player.getUniqueId()+".deaths",0);
         statsYaml.set("Stats."+player.getUniqueId()+".k/d",0);
@@ -54,8 +54,8 @@ public class StatsManager {
     public int getWins(UUID uuid){
         return statsYaml.getInt("Stats."+uuid+".wins");
     }
-    public int getLooses(UUID uuid){
-        return statsYaml.getInt("Stats."+uuid+".looses");
+    public int getLosses(UUID uuid){
+        return statsYaml.getInt("Stats."+uuid+".losses");
     }
     public int getKills(UUID uuid){
         return statsYaml.getInt("Stats."+uuid+".kills");
@@ -70,55 +70,80 @@ public class StatsManager {
         statsYaml.set("Stats."+player.getUniqueId()+".rating",getRating(player.getUniqueId()) + count);
         saveStatsYaml();
     }
-    public void removeRating(Player player, int count){
-        statsYaml.set("Stats."+player.getUniqueId()+".rating",getRating(player.getUniqueId()) - count);
-        saveStatsYaml();
-    }
-    public void setRating(Player player, int count){
-        statsYaml.set("Stats."+player.getUniqueId()+".rating",count);
-        saveStatsYaml();
-    }
-    public void addWins(Player player, int count){
-        statsYaml.set("Stats."+player.getUniqueId()+".wins",getWins(player.getUniqueId()) + count);
-        saveStatsYaml();
-    }
-    public void addLooses(Player player, int count){
-        statsYaml.set("Stats."+player.getUniqueId()+".looses",getLooses(player.getUniqueId()) + count);
-        saveStatsYaml();
-    }
-    public void addDeaths(Player player, int count){
-        statsYaml.set("Stats."+player.getUniqueId()+".deaths",getDeaths(player.getUniqueId()) + count);
-        saveStatsYaml();
-        updateKD(player);
-    }
-    public void addKills(Player player, int count){
-        statsYaml.set("Stats."+player.getUniqueId()+".kills",getKills(player.getUniqueId()) + count);
-        saveStatsYaml();
-        updateKD(player);
-    }
-    public void setKD(Player player, double count){
-        statsYaml.set("Stats."+player.getUniqueId()+".k/d",count);
+    public void removeRating(Player player, int count) {
+        int currentRating = getRating(player.getUniqueId());
+        int newRating = Math.max(currentRating - count, 0);
+        statsYaml.set("Stats." + player.getUniqueId() + ".rating", newRating);
         saveStatsYaml();
     }
 
-    public void setWins(Player player, double count){
-        statsYaml.set("Stats."+player.getUniqueId()+".wins",count);
+    public void setRating(Player player, int count) {
+        int newRating = Math.max(count, 0);
+        statsYaml.set("Stats." + player.getUniqueId() + ".rating", newRating);
         saveStatsYaml();
     }
-    public void setDeaths(Player player, double count){
-        statsYaml.set("Stats."+player.getUniqueId()+".deaths",count);
+
+    public void addWins(Player player, int count) {
+        int currentWins = getWins(player.getUniqueId());
+        int newWins = Math.max(currentWins + count, 0);
+        statsYaml.set("Stats." + player.getUniqueId() + ".wins", newWins);
+        saveStatsYaml();
+    }
+
+    public void addLosses(Player player, int count) {
+        int currentLosses = getLosses(player.getUniqueId());
+        int newLosses = Math.max(currentLosses + count, 0);
+        statsYaml.set("Stats." + player.getUniqueId() + ".losses", newLosses);
+        saveStatsYaml();
+    }
+
+    public void addDeaths(Player player, int count) {
+        int currentDeaths = getDeaths(player.getUniqueId());
+        int newDeaths = Math.max(currentDeaths + count, 0);
+        statsYaml.set("Stats." + player.getUniqueId() + ".deaths", newDeaths);
         saveStatsYaml();
         updateKD(player);
     }
-    public void setLooses(Player player, double count){
-        statsYaml.set("Stats."+player.getUniqueId()+".looses",count);
+
+    public void addKills(Player player, int count) {
+        int currentKills = getKills(player.getUniqueId());
+        int newKills = Math.max(currentKills + count, 0);
+        statsYaml.set("Stats." + player.getUniqueId() + ".kills", newKills);
         saveStatsYaml();
         updateKD(player);
     }
-    public void setKills(Player player, double count){
-        statsYaml.set("Stats."+player.getUniqueId()+".kills",count);
+
+    public void setKD(Player player, double count) {
+        statsYaml.set("Stats." + player.getUniqueId() + ".k/d", count);
         saveStatsYaml();
     }
+
+    public void setWins(Player player, double count) {
+        int newWins = Math.max((int) count, 0);
+        statsYaml.set("Stats." + player.getUniqueId() + ".wins", newWins);
+        saveStatsYaml();
+    }
+
+    public void setDeaths(Player player, double count) {
+        int newDeaths = Math.max((int) count, 0);
+        statsYaml.set("Stats." + player.getUniqueId() + ".deaths", newDeaths);
+        saveStatsYaml();
+        updateKD(player);
+    }
+
+    public void setLosses(Player player, double count) {
+        int newLosses = Math.max((int) count, 0);
+        statsYaml.set("Stats." + player.getUniqueId() + ".losses", newLosses);
+        saveStatsYaml();
+        updateKD(player);
+    }
+
+    public void setKills(Player player, double count) {
+        int newKills = Math.max((int) count, 0);
+        statsYaml.set("Stats." + player.getUniqueId() + ".kills", newKills);
+        saveStatsYaml();
+    }
+
 
     public void reloadStats() {
         statsYaml = YamlConfiguration.loadConfiguration(statsFile);
@@ -141,8 +166,7 @@ public class StatsManager {
         addKills(winner,1);
         addWins(winner,1);
         addRating(winner,(int) Math.ceil(winner.getHealth()));
-        addLooses(looser,1);
-        addDeaths(looser,1);
+        addLosses(looser,1);
         removeRating(looser,(int) Math.ceil(winner.getHealth()));
         updateKD(winner);
         updateKD(looser);
@@ -196,7 +220,7 @@ public class StatsManager {
         switch (value.toLowerCase()){
             case "rating":
             case "wins":
-            case "looses":
+            case "losses":
             case "kills":
             case "deaths":
             case "k/d":
@@ -211,8 +235,8 @@ public class StatsManager {
                 return getRating(uuid);
             case "wins":
                 return getWins(uuid);
-            case "looses":
-                return getLooses(uuid);
+            case "losses":
+                return getLosses(uuid);
             case "kills":
                 return getKills(uuid);
             case "deaths":

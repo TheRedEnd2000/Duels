@@ -11,6 +11,9 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEvent;
 
+import java.util.ArrayList;
+import java.util.UUID;
+
 public class PlayerInteractWithDuelItems implements Listener {
 
     public PlayerInteractWithDuelItems(){
@@ -33,9 +36,13 @@ public class PlayerInteractWithDuelItems implements Listener {
                         case "arena.play-again":
                             if (Main.getPlugin().getPlayAgainHashMap().containsKey(arena)) {
                                 PlayAgain playAgain = Main.getPlugin().getPlayAgainHashMap().get(arena);
+                                if(arena.getPlayerInGame().size() == 1){
+                                    player.sendMessage(Main.PREFIX+"§cYour opponent has already left the duel.");
+                                    return;
+                                }
                                 if (playAgain.getPlayer1() != null) {
                                     if (playAgain.getPlayer1().equals(player)) {
-                                        player.sendMessage(Main.PREFIX + "§cYou have already clicked this.");
+                                        player.sendMessage(Main.PREFIX + "§cYou have already been queued.");
                                         return;
                                     }
 
@@ -43,15 +50,23 @@ public class PlayerInteractWithDuelItems implements Listener {
                                     Kit kit = Main.getPlugin().getArenaKit().get(arena);
                                     arena.setGameState(GameState.WAITING);
 
-                                    // Make sure to initialize and store the PlayAgain object for the next rematch
 
                                     Main.getPlugin().getGameManager().endDuelWithPlayAgain(arena);
                                     Main.getPlugin().getGameManager().duelPlayer(playAgain.getPlayer1(), playAgain.getPlayer2(), arena, kit);
                                     playAgain.getPlayer1().sendMessage(Main.PREFIX + "§aYou have successfully entered a rematch with " + playAgain.getPlayer2().getDisplayName());
                                     playAgain.getPlayer2().sendMessage(Main.PREFIX + "§aYou have successfully entered a rematch with " + playAgain.getPlayer1().getDisplayName());
+                                    Main.getPlugin().getPlayAgainHashMap().remove(arena);
                                 } else {
+                                    ArrayList<UUID> players = new ArrayList<>(arena.getPlayerInGame());
+                                    players.remove(player.getUniqueId());
+                                    Player getRealKiller = Bukkit.getPlayer(players.get(0));
+                                    if(getRealKiller == null){
+                                        player.sendMessage(Main.PREFIX+"§cYour opponent has already left the duel.");
+                                        return;
+                                    }
                                     playAgain.setPlayer1(player);
-                                    Bukkit.broadcastMessage("Duel want");
+                                    player.sendMessage(Main.PREFIX+"§aYou have been queue to rematch against "+getRealKiller.getDisplayName());
+                                    getRealKiller.sendMessage(Main.PREFIX+"§6"+player.getDisplayName()+" §achallenged you to a rematch.");
                                 }
                             }
                             break;

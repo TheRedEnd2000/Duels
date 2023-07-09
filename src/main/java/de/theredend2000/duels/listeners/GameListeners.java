@@ -2,6 +2,7 @@ package de.theredend2000.duels.listeners;
 
 import de.theredend2000.duels.Main;
 import de.theredend2000.duels.arenas.Arena;
+import de.theredend2000.duels.extramanagers.SpecialsManager;
 import de.theredend2000.duels.game.GameState;
 import de.theredend2000.duels.kits.Kit;
 import net.minecraft.world.entity.projectile.FishingHook;
@@ -48,6 +49,23 @@ public class GameListeners implements Listener {
     }
 
     @EventHandler
+    public void onFluidFlow(BlockFromToEvent event) {
+        Block fromBlock = event.getBlock();
+        Block toBlock = event.getToBlock();
+
+        if (fromBlock.isLiquid() && toBlock.getType() == Material.AIR) {
+            Location fromLocation = fromBlock.getLocation();
+            Location toLocation = toBlock.getLocation();
+
+            boolean fromWithinArena = Main.getPlugin().getArenaManager().isWithinArena(fromLocation);
+            boolean toWithinArena = Main.getPlugin().getArenaManager().isWithinArena(toLocation);
+
+            if (fromWithinArena && !toWithinArena) {
+                event.setCancelled(true);
+            }
+        }
+    }
+    @EventHandler
     public void onBreakBlock(BlockBreakEvent event){
         Player player = event.getPlayer();
         if(Main.getPlugin().getArenaManager().playerIsAlreadyInArena(player)){
@@ -85,10 +103,36 @@ public class GameListeners implements Listener {
     public void onDamage(EntityDamageEvent event){
         if(!(event.getEntity() instanceof Player)) return;
         Player player = (Player) event.getEntity();
-        if(Main.getPlugin().getArenaManager().playerIsAlreadyInArena(player)){
+        if(Main.getPlugin().getArenaManager().playerIsAlreadyInArena(player)) {
             Arena arena = Main.getPlugin().getArenaManager().getPlayerCurrentArena(player);
-            if(!arena.getGameState().equals(GameState.RUNNING))
+            if (!arena.getGameState().equals(GameState.RUNNING))
                 event.setCancelled(true);
+            if (arena.getGameState().equals(GameState.RUNNING) || arena.getGameState().equals(GameState.GAME_END)){
+                if (player.getHealth() - event.getFinalDamage() <= 0) {
+                    for (UUID uuid : arena.getPlayerInGame()) {
+                        Player p = Bukkit.getPlayer(uuid);
+                        if (p == null) continue;
+                        if(event.getCause() != EntityDamageEvent.DamageCause.ENTITY_ATTACK)
+                            p.sendMessage(Main.PREFIX + Main.getPlugin().getSpecialsManager().getDeathMessage(event.getCause(), player));
+                    }
+                }
+            }
+        }
+    }
+
+    @EventHandler
+    public void onDamageBy(EntityDamageByEntityEvent event){
+        if(!(event.getEntity() instanceof Player) || !(event.getDamager() instanceof Player)) return;
+        Player player = (Player) event.getEntity();
+        Player damager = (Player) event.getDamager();
+        if(Main.getPlugin().getArenaManager().playerIsAlreadyInArena(player) && Main.getPlugin().getArenaManager().playerIsAlreadyInArena(damager)){
+            Arena arena = Main.getPlugin().getArenaManager().getPlayerCurrentArena(player);
+            if(arena.getGameState().equals(GameState.RUNNING) || arena.getGameState().equals(GameState.GAME_END)) {
+                if (player.getHealth() - event.getFinalDamage() <= 0) {
+                    damager.sendMessage(Main.PREFIX+Main.getPlugin().getSpecialsManager().getDeathMessageWithKiller(event.getCause(),damager,player));
+                    player.sendMessage(Main.PREFIX+Main.getPlugin().getSpecialsManager().getDeathMessageWithKiller(event.getCause(),damager,player));
+                }
+            }
         }
     }
 
@@ -133,7 +177,7 @@ public class GameListeners implements Listener {
                 Kit kit = Main.getPlugin().getArenaKit().get(arena);
                 Main.getPlugin().getGameManager().winDuel(player,killer,arena,kit);
                 arena.setGameState(GameState.GAME_END);
-                //blockList.entrySet().stream().filter(entry -> entry.getValue().equals(arena)).forEach(entry -> {entry.getKey().setType(Material.AIR);blockList.remove(entry.getKey());});
+                blockList.entrySet().stream().filter(entry -> entry.getValue().equals(arena)).forEach(entry -> {entry.getKey().setType(Material.AIR);blockList.remove(entry.getKey());});
             }
         }
     }
@@ -151,15 +195,20 @@ public class GameListeners implements Listener {
     }
 
     @EventHandler
-    public void onPlayerChat(AsyncPlayerChatEvent event){
-        Player player = (Player) event.getPlayer();
+    public void onPlayerChat(PlayerChatEvent event){
+        Player player = event.getPlayer();
         if (Main.getPlugin().getArenaManager().playerIsAlreadyInArena(player)) {
             Arena arena = Main.getPlugin().getArenaManager().getPlayerCurrentArena(player);
             event.setCancelled(true);
+            if(!Main.getPlugin().getConfig().getBoolean("messages.player-chat-message.enabled")){
+                player.sendMessage(Main.PREFIX+"§cThe chat is disabled.");
+                return;
+            }
             for(UUID uuid : arena.getPlayerInGame()){
                 Player p = Bukkit.getPlayer(uuid);
                 if(p == null) return;
-                p.sendMessage(event.getMessage());
+                String layout = Main.getPlugin().getConfig().getString("messages.player-chat-message.layout").replaceAll("&","§").replaceAll("%player%",player.getDisplayName()).replaceAll("%message%",event.getMessage());
+                p.sendMessage(Main.PREFIX+layout);
             }
         }
     }
@@ -210,7 +259,7 @@ public class GameListeners implements Listener {
                 Kit kit = Main.getPlugin().getArenaKit().get(arena);
                 Main.getPlugin().getGameManager().winDuel(player,winner,arena,kit);
                 arena.setGameState(GameState.GAME_END);
-                winner.sendMessage(Main.PREFIX+"§e"+player.getDisplayName()+"§c left the game. §6You win.");
+                winner.sendMessage(Main.PREFIX+"§e"+player.getDisplayName()+"§c left the game.");
             }
             if(arena.getGameState().equals(GameState.GAME_END)){
                 event.setQuitMessage(null);
