@@ -7,7 +7,8 @@ config-version: 1
 check-for-updates: true
 
 
-
+# Messages file language
+message-lang: en
 
 game:
   # The time you wait before the fight begins

@@ -3,10 +3,11 @@ package de.theredend2000.duels.commands;
 import de.theredend2000.duels.Main;
 import de.theredend2000.duels.arenas.Arena;
 import de.theredend2000.duels.game.GameState;
-import de.theredend2000.duels.inventorys.arenaMenus.ArenaListMenu;
 import de.theredend2000.duels.inventorys.queueMenus.QueueListMenu;
 import de.theredend2000.duels.kits.Kit;
 import de.theredend2000.duels.util.HelpManager;
+import de.theredend2000.duels.util.MessageKey;
+import de.theredend2000.duels.util.MessageManager;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
@@ -18,12 +19,16 @@ import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import javax.swing.*;
 import java.util.*;
 
 public class DuelCommand implements CommandExecutor, TabCompleter {
+    private Main plugin;
+    private MessageManager messageManager;
 
     public DuelCommand() {
-
+        plugin = Main.getPlugin();
+        messageManager = plugin.getMessageManager();
     }
 
     @Override
@@ -32,24 +37,24 @@ public class DuelCommand implements CommandExecutor, TabCompleter {
             Player player = (Player) sender;
             if(Main.getPlugin().getConfig().getBoolean("permissions.need-duel-command-permission")){
                 if(!player.hasPermission((Objects.requireNonNull(Main.getPlugin().getConfig().getString("permissions.duel-command-permission"))))) {
-                    player.sendMessage(Main.PREFIX + "§cYou do not have the right permission to use this command.");
+                    player.sendMessage(messageManager.getMessage(MessageKey.PERMISSION_ERROR));
                     return false;
                 }
             }
             if (Main.getPlugin().getBannedWorlds().contains(player.getWorld())) {
-                player.sendMessage(Main.PREFIX + "§cYou can't duel in this world.");
+                player.sendMessage(messageManager.getMessage(MessageKey.BANNED_WORLD_ERROR));
                 return false;
             }
             if (Main.getPlugin().getArenaManager().playerIsAlreadyInArena(player)) {
-                player.sendMessage(Main.PREFIX + "§cYou are already in a duel.");
+                player.sendMessage(messageManager.getMessage(MessageKey.ALREADY_IN_DUEL_ERROR));
                 return false;
             }
             Arena playingArena = Main.getPlugin().getGameManager().getRandomArena();
             if(playingArena == null){
                 if(player.isOp() || player.hasPermission((Objects.requireNonNull(Main.getPlugin().getConfig().getString("permissions.duel-command-permission")))))
-                    player.sendMessage(Main.PREFIX+"§cThere are no Arenas available. You can create one with §e/duels arena create <name>§c and edit it with §e/duels arena edit <name>§c.");
+                    player.sendMessage(messageManager.getMessage(MessageKey.NO_ARENAS_AVAILABLE_WITH_PERMISSION));
                 else
-                    player.sendMessage(Main.PREFIX+"§cThere are no Arenas available. Please contact an admin!");
+                    player.sendMessage(messageManager.getMessage(MessageKey.NO_ARENAS_AVAILABLE));
                 return false;
             }
             Kit kit = Main.getPlugin().getGameManager().getRandomKit();
@@ -65,15 +70,15 @@ public class DuelCommand implements CommandExecutor, TabCompleter {
             }else if (args.length == 1) {
                 Player opponent = Bukkit.getPlayer(args[0]);
                 if (opponent == null) {
-                    player.sendMessage(Main.PREFIX + "§cThis player is not available.");
+                    player.sendMessage(messageManager.getMessage(MessageKey.PLAYER_NOT_AVAILABLE));
                     return false;
                 }
                if (opponent.equals(player)) {
-                    player.sendMessage(Main.PREFIX + "§cYou can't duel yourself.");
+                    player.sendMessage(messageManager.getMessage(MessageKey.CANNOT_DUEL_YOURSELF));
                     return false;
                 }
                 if (Main.getPlugin().getBannedWorlds().contains(opponent.getWorld())) {
-                    player.sendMessage(Main.PREFIX + "§c" + opponent.getDisplayName() + " is in a banned world.");
+                    player.sendMessage(messageManager.getMessage(MessageKey.BANNED_WORLD_ERROR));
                     return false;
                 }
                 if (Main.getPlugin().getDuelRequests().containsKey(player) || Main.getPlugin().getDuelRequests().containsValue(opponent)) {
@@ -81,7 +86,7 @@ public class DuelCommand implements CommandExecutor, TabCompleter {
                     return false;
                 }
                 if (Main.getPlugin().getArenaManager().playerIsAlreadyInArena(opponent)) {
-                    player.sendMessage(Main.PREFIX + "§e" + opponent.getDisplayName() + " §cis already in a duel.");
+                    player.sendMessage(messageManager.getMessage(MessageKey.ALREADY_IN_DUEL_ERROR));
                     return false;
                 }
 
@@ -93,7 +98,7 @@ public class DuelCommand implements CommandExecutor, TabCompleter {
             } else if (args[0].equalsIgnoreCase("accept") && args.length == 4) {
                 Player opponent = Bukkit.getPlayer(args[1]);
                 if (opponent == null) {
-                    player.sendMessage(Main.PREFIX + "§cThis player is not available.");
+                    player.sendMessage(messageManager.getMessage(MessageKey.NO_ARENAS_AVAILABLE));
                     return false;
                 }
                 if (!Main.getPlugin().getDuelRequests().containsKey(opponent) || !Main.getPlugin().getDuelRequests().containsValue(player)) {
@@ -126,7 +131,7 @@ public class DuelCommand implements CommandExecutor, TabCompleter {
             } else if (args[0].equalsIgnoreCase("deny") && args.length == 2) {
                 Player opponent = Bukkit.getPlayer(args[1]);
                 if (opponent == null) {
-                    player.sendMessage(Main.PREFIX + "§cThis player is not available.");
+                    player.sendMessage(messageManager.getMessage(MessageKey.NO_ARENAS_AVAILABLE));
                     return false;
                 }
                 if (!Main.getPlugin().getDuelRequests().containsKey(opponent) || !Main.getPlugin().getDuelRequests().containsValue(player)) {
@@ -172,8 +177,8 @@ public class DuelCommand implements CommandExecutor, TabCompleter {
     }
 
     public void sendDuelRequestDeniedMessage(Player sender, Player opponent) {
-        opponent.sendMessage(Main.PREFIX + "§e" + sender.getDisplayName() + " §cdenied your duel request.");
-        sender.sendMessage(Main.PREFIX + "§7You §cdenied §7the duel request from §e" + opponent.getDisplayName() + "§7.");
+        opponent.sendMessage(messageManager.getMessage(MessageKey.DUEL_REQUEST_DENIED));
+        sender.sendMessage(messageManager.getMessage(MessageKey.DUEL_REQUEST_DENIED_BY_SENDER));
     }
 
     @Override
