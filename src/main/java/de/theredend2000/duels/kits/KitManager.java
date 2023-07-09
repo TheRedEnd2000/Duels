@@ -53,13 +53,17 @@ public class KitManager {
     }
 
     public void loadAllKits(){
-        Bukkit.getConsoleSender().sendMessage("\n§4§lLOADING KITS...");
+        boolean sendMessages = Main.getPlugin().getConfig().getBoolean("messages.send-kit-loading-message");
+        if(sendMessages)
+            Bukkit.getConsoleSender().sendMessage("\n§4§lLOADING KITS...");
         for(String name : listKitNames()){
             Kit kit = new Kit(Main.getPlugin(), name);
             Main.getPlugin().getKitManagerHashMap().put(name, kit);
-            Bukkit.getConsoleSender().sendMessage("§7Kit §a" + kit.getName() + " §7loaded §2successfully§7.");
+            if(sendMessages)
+                Bukkit.getConsoleSender().sendMessage("§7Kit §a" + kit.getName() + " §7loaded §2successfully§7.");
         }
-        Bukkit.getConsoleSender().sendMessage("§2§lALL KITS SUCCESSFULLY LOADED!\n");
+        if(sendMessages)
+            Bukkit.getConsoleSender().sendMessage("§2§lALL KITS SUCCESSFULLY LOADED!\n");
     }
 
     public void loadKit(Player player, String name){

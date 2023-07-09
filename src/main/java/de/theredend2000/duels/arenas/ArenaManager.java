@@ -73,7 +73,9 @@ public class ArenaManager {
     }
 
     public void loadAllArena() {
-        Bukkit.getConsoleSender().sendMessage("\n§4§lLOADING ARENAS...");
+        boolean sendMessages = Main.getPlugin().getConfig().getBoolean("messages.send-arena-loading-message");
+        if(sendMessages)
+            Bukkit.getConsoleSender().sendMessage("\n§4§lLOADING ARENAS...");
         if (!arenaYaml.contains("Arenas.")) {
             Bukkit.getConsoleSender().sendMessage("§cNo arenas found in the configuration file.");
             return;
@@ -81,7 +83,7 @@ public class ArenaManager {
 
         ConfigurationSection arenasSection = arenaYaml.getConfigurationSection("Arenas.");
         if (arenasSection == null) {
-            Bukkit.getConsoleSender().sendMessage("§c'Arenas.' section not found in the configuration file.");
+            Bukkit.getConsoleSender().sendMessage("§c'Arenas' section not found in the configuration file.");
             return;
         }
 
@@ -110,10 +112,11 @@ public class ArenaManager {
             Arena arena = new Arena(arenaName, canBeEnabled, new ArrayList<>(), lobby, end, spawn1, spawn2, pos1, pos2, gameState);
             Main.getPlugin().getArenaManagerHashMap().put(arenaName, arena);
 
-            Bukkit.getConsoleSender().sendMessage("§7Arena §a" + arenaName + " §7loaded §2successfully§7.");
+            if(sendMessages)
+                Bukkit.getConsoleSender().sendMessage("§7Arena §a" + arenaName + " §7loaded §2successfully§7.");
         }
-
-        Bukkit.getConsoleSender().sendMessage("§2§lALL ARENAS SUCCESSFULLY LOADED!\n");
+        if(sendMessages)
+            Bukkit.getConsoleSender().sendMessage("§2§lALL ARENAS SUCCESSFULLY LOADED!\n");
     }
     public boolean canBeEnabled(String arenaNames){
         return arenaYaml.getLocation("Arenas." + arenaNames + ".lobbyLocation") != null && arenaYaml.getLocation("Arenas." + arenaNames + ".pos1") != null && arenaYaml.getLocation("Arenas." + arenaNames + ".pos2") != null && arenaYaml.getLocation("Arenas." + arenaNames + ".spawn1") != null && arenaYaml.getLocation("Arenas." + arenaNames + ".spawn2") != null && arenaYaml.getLocation("Arenas." + arenaNames + ".endLocation") != null;

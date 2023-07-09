@@ -34,7 +34,7 @@ public class ArenaEndCountdown {
                         for (UUID uuid : arena.getPlayerInGame()) {
                             Player player = Bukkit.getPlayer(uuid);
                             if (player == null) return;
-                            player.sendMessage(Main.PREFIX+"§7Battle ends in §e"+currentTime+" seconds§c.");
+                            player.sendMessage(Main.PREFIX+"§7Battle ends in §e"+currentTime+" seconds§7.");
                             Main.getPlugin().getItemManager().setPlayAgainItem(player);
                             Main.getPlugin().getItemManager().setLeaveItem(player);
                         }

@@ -241,3 +241,9 @@ messages:
     enabled: true # If 'true' players can chat
     # Replacements: '%player% -> player name; %message% -> message
     layout: "&6%player% &7>> &f%message%"
+
+
+  # Configure if loading messages should be sent if the plugins loads all kits or arenas
+  # default: true
+  send-kit-loading-message: true
+  send-arena-loading-message: true
