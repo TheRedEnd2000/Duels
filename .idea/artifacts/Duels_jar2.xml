@@ -1,8 +1,0 @@
-<component name="ArtifactManager">
-  <artifact type="jar" name="Duels:jar2">
-    <output-path>$USER_HOME$/AppData/Roaming/.feather/player-server/servers/e1093463-d29e-431c-8991-42dfea9a609e/plugins</output-path>
-    <root id="archive" name="Duels.jar">
-      <element id="module-output" name="Duels" />
-    </root>
-  </artifact>
-</component>
