@@ -4,26 +4,17 @@ duel-command-permission-error: "&cYou do not have the right permission to use th
 
 banned-world-error: "&cYou can't duel in this world."
 already-in-duel-error: "&cYou are already in a duel."
-no-arenas-available-with-permission:
-  - "&cThere are no Arenas available. You can create one with &e/duels arena create <name>&c and edit it with &e/duels arena edit <name>&c."
-no-arenas-available:
-  - "&cThere are no Arenas available."
-no-kits-available:
-  - "&cThere are no Kits available."
-  - "&cYou can create one with &e/duels kit save <name>&c."
+no-arenas-available-with-permission: "&cThere are no Arenas available. You can create one with &e/duels arena create <name>&c and edit it with &e/duels arena edit <name>&c."
+no-arenas-available: "&cThere are no Arenas available."
+no-kits-available: "&cThere are no Kits available."
+no-kits-available-with-permission: "&cThere are no Kits available. You can create one with &e/duels kit create <name>&c."
 player-not-available: "&cThis player is not available."
 cannot-duel-yourself: "&cYou can't duel yourself."
 opponent-banned-world: "&c%opponent% is in a banned world."
 duel-request-sent: "&7The request to &e%opponent%&7 has been sent."
-duel-request-received:
-  - "&d-=-=-=-=-=-=&9Duel Request&d-=-=-=-=-=-="
-  - " &e%sender% &7wants to duel you."
-  - " &7Arena: &6%arena%"
-  - " &7Kit: &4%kit%"
-  - " &7|----------- &a&l[Accept] &5&l----- "
-  - " &c&l[Deny] &7-----------|"
 duel-request-denied: "&e%sender% &cdenied your duel request."
 duel-request-expired: "&cYour duel request has expired."
+duel-request-already-sent: "&cYou have already sent a duel request to %opponent%."
 no-duel-request: "&cYou have no duel request from %opponent%."
 opponent-already-in-duel: "&e%opponent% &cis already in a duel."
 arena-unavailable: "&cThe arena is no longer available. Please try again later."

@@ -123,9 +123,12 @@ public class GameManager {
         player.teleport(arena.getLobbySpawn());
         player.setFlying(false);
         player.setAllowFlight(false);
+        regeneratePlayer(player);
         arena.getPlayerInGame().remove(player.getUniqueId());
         player.setScoreboard(Bukkit.getScoreboardManager().getMainScoreboard());
         Main.getPlugin().getPlayerSavesManager().loadPlayer(player);
+        for (PotionEffect effect : player.getActivePotionEffects())
+            player.removePotionEffect(effect.getType());
     }
     public Arena getRandomArena() {
         Collection<Arena> arenas = Main.getPlugin().getArenaManagerHashMap().values();

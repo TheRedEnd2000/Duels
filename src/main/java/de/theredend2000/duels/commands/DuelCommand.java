@@ -60,9 +60,9 @@ public class DuelCommand implements CommandExecutor, TabCompleter {
             Kit kit = Main.getPlugin().getGameManager().getRandomKit();
             if(kit == null){
                 if(player.isOp() || player.hasPermission((Objects.requireNonNull(Main.getPlugin().getConfig().getString("permissions.duel-command-permission")))))
-                    player.sendMessage(Main.PREFIX+"§cThere are no Kits available. You can create one with §e/duels kit save <name>§c.");
+                    player.sendMessage(messageManager.getMessage(MessageKey.NO_KITS_AVAILABLE_WITH_PERMISSION));
                 else
-                    player.sendMessage(Main.PREFIX+"§cThere are no Kits available. Please contact an admin!");
+                    player.sendMessage(messageManager.getMessage(MessageKey.NO_KITS_AVAILABLE));
                 return false;
             }
             if(args.length == 0){
@@ -82,7 +82,7 @@ public class DuelCommand implements CommandExecutor, TabCompleter {
                     return false;
                 }
                 if (Main.getPlugin().getDuelRequests().containsKey(player) || Main.getPlugin().getDuelRequests().containsValue(opponent)) {
-                    player.sendMessage(Main.PREFIX + "§cYou have already sent a duel request to " + opponent.getDisplayName() + ".");
+                    player.sendMessage(messageManager.getMessage(MessageKey.DUEL_REQUEST_ALREADY_SENT).replaceAll("%opponent%",opponent.getDisplayName()));
                     return false;
                 }
                 if (Main.getPlugin().getArenaManager().playerIsAlreadyInArena(opponent)) {
@@ -93,7 +93,7 @@ public class DuelCommand implements CommandExecutor, TabCompleter {
                 if (playingArena.getGameState().equals(GameState.WAITING)) {
                     Main.getPlugin().getInventoryManager().getPlayerDuelMenuMain(player, opponent, playingArena, kit);
                 } else {
-                    player.sendMessage(Main.PREFIX + "§cThere are no free arenas. Please contact an admin and try again later.");
+                    player.sendMessage(messageManager.getMessage(MessageKey.ARENA_UNAVAILABLE));
                 }
             } else if (args[0].equalsIgnoreCase("accept") && args.length == 4) {
                 Player opponent = Bukkit.getPlayer(args[1]);
@@ -102,15 +102,15 @@ public class DuelCommand implements CommandExecutor, TabCompleter {
                     return false;
                 }
                 if (!Main.getPlugin().getDuelRequests().containsKey(opponent) || !Main.getPlugin().getDuelRequests().containsValue(player)) {
-                    player.sendMessage(Main.PREFIX + "§cYou have no duel request from " + opponent.getDisplayName() + ".");
+                    player.sendMessage(messageManager.getMessage(MessageKey.NO_DUEL_REQUEST).replaceAll("%opponent%",opponent.getDisplayName()));
                     return false;
                 }
                 if (Main.getPlugin().getArenaManager().playerIsAlreadyInArena(player)) {
-                    player.sendMessage(Main.PREFIX + "§cYou are already in a duel.");
+                    player.sendMessage(messageManager.getMessage(MessageKey.ALREADY_IN_DUEL_ERROR));
                     return false;
                 }
                 if (Main.getPlugin().getArenaManager().playerIsAlreadyInArena(opponent)) {
-                    player.sendMessage(Main.PREFIX + "§e" + opponent.getDisplayName() + " §cis already in a duel.");
+                    player.sendMessage(messageManager.getMessage(MessageKey.OPPONENT_ALREADY_IN_DUEL).replaceAll("%opponent%",opponent.getDisplayName()));
                     return false;
                 }
 
@@ -126,7 +126,7 @@ public class DuelCommand implements CommandExecutor, TabCompleter {
                     Main.getPlugin().getDuelRequests().values().remove(player);
                     Main.getPlugin().getDuelRequestTime().remove(opponent);
                 } else {
-                    player.sendMessage(Main.PREFIX + "§cThe arena is no longer available. Please try again later.");
+                    player.sendMessage(messageManager.getMessage(MessageKey.ARENA_UNAVAILABLE));
                 }
             } else if (args[0].equalsIgnoreCase("deny") && args.length == 2) {
                 Player opponent = Bukkit.getPlayer(args[1]);
@@ -135,7 +135,7 @@ public class DuelCommand implements CommandExecutor, TabCompleter {
                     return false;
                 }
                 if (!Main.getPlugin().getDuelRequests().containsKey(opponent) || !Main.getPlugin().getDuelRequests().containsValue(player)) {
-                    player.sendMessage(Main.PREFIX + "§cYou have no duel request from " + opponent.getDisplayName() + ".");
+                    player.sendMessage(messageManager.getMessage(MessageKey.NO_DUEL_REQUEST).replaceAll("%opponent%",opponent.getDisplayName()));
                     return false;
                 }
 
@@ -146,12 +146,12 @@ public class DuelCommand implements CommandExecutor, TabCompleter {
             }else
                 HelpManager.sendPlayerDuelHelp(player);
         } else
-            sender.sendMessage(Main.PREFIX + "§cOnly players can use this command.");
+            sender.sendMessage(messageManager.getMessage(MessageKey.ONLY_PLAYERS_ERROR));
         return false;
     }
 
     public void sendRequest(Player sender, Player opponent, Arena arena, Kit kit) {
-        sender.sendMessage(Main.PREFIX + "§7The request to §e" + opponent.getDisplayName() + " §7has been sent.");
+        sender.sendMessage(messageManager.getMessage(MessageKey.DUEL_REQUEST_SENT).replaceAll("%opponent%",opponent.getDisplayName()));
         Main.getPlugin().getDuelRequests().put(sender, opponent);
         Main.getPlugin().getDuelRequestTime().put(sender,30);
         opponent.sendMessage("§d-=-=-=-=-=-=§9Duel Request§d-=-=-=-=-=-=");
@@ -200,7 +200,7 @@ public class DuelCommand implements CommandExecutor, TabCompleter {
                         if (currentTime == 0) {
                             duelRequestTime.remove(player);
                             Main.getPlugin().getDuelRequests().remove(player);
-                            player.sendMessage(Main.PREFIX + "§cYour duel request has expired.");
+                            player.sendMessage(messageManager.getMessage(MessageKey.DUEL_REQUEST_EXPIRED));
                             continue;
                         }
                         duelRequestTime.put(player, currentTime - 1);

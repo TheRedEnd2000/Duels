@@ -1,11 +1,16 @@
 package de.theredend2000.duels.util;
 
 import de.theredend2000.duels.Main;
+import de.theredend2000.duels.util.MessageKey;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
 
 public class MessageManager {
 
@@ -14,6 +19,7 @@ public class MessageManager {
 
     public MessageManager() {
         this.plugin = Main.getPlugin();
+        reloadMessages();
     }
 
     public void reloadMessages() {
@@ -21,10 +27,21 @@ public class MessageManager {
         if (lang == null)
             lang = "en";
 
-        File messagesFile = new File(plugin.getDataFolder(), "messages-" + lang + ".yml");
+        File messagesFolder = new File(plugin.getDataFolder(), "messages");
+        if (!messagesFolder.exists()) {
+            messagesFolder.mkdirs();
+        }
 
+        File messagesFile = new File(messagesFolder, "messages-" + lang + ".yml");
         if (!messagesFile.exists()) {
-            plugin.saveResource("messages.yml", false);
+            try {
+                InputStream in = plugin.getResource("messageFiles/messages-" + lang + ".yml");
+                if (in != null) {
+                    Files.copy(in, messagesFile.toPath());
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
 
         messagesConfig = YamlConfiguration.loadConfiguration(messagesFile);
@@ -33,7 +50,7 @@ public class MessageManager {
     public String getMessage(MessageKey key) {
         String message = messagesConfig.getString(key.getPath());
         if (message != null) {
-            message = ChatColor.translateAlternateColorCodes('&', message);
+            message = ChatColor.translateAlternateColorCodes('&', Main.PREFIX + message);
             return message;
         }
         return "Message not found: " + key.name();
