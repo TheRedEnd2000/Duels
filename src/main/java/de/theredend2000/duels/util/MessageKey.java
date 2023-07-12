@@ -19,7 +19,23 @@ public enum MessageKey {
     OPPONENT_ALREADY_IN_DUEL("opponent-already-in-duel"),
     ARENA_UNAVAILABLE("arena-unavailable"),
     DUEL_REQUEST_DENIED_BY_SENDER("duel-request-denied-by-sender"),
-    ONLY_PLAYERS_ERROR("only-players-error");
+    ONLY_PLAYERS_ERROR("only-players-error"),
+    ARENA_CREATED("arena-created"),
+    ARENA_DELETED("arena-deleted"),
+    ARENA_ALREADY_EXIST("arena-already-exist"),
+    ARENA_NOT_FOUND("arena-not-found"),
+    ARENA_ICON_SET("arena-icon-set"),
+    ARENA_ICON_FAIL("arena-icon-fail"),
+    KIT_SAVED("kit-saved"),
+    KIT_DELETED("kit-deleted"),
+    KIT_ALREADY_EXIST("kit-already-exist"),
+    KIT_NOT_FOUND("kit-not-found"),
+    KIT_RENAME("kit-rename"),
+    KIT_RENAME_EXIST_NEW("kit-rename-exist-new"),
+    KIT_LOAD("kit-load"),
+    KIT_EDIT("kit-edit"),
+    KIT_ICON_SET("kit-icon-set"),
+    KIT_ICON_FAIL("kit-icon-fail");
 
     private final String path;
 

@@ -2,6 +2,9 @@
 only-players-error: "&cOnly players can use this command."
 duel-command-permission-error: "&cYou do not have the right permission to use this command."
 
+
+# Commands
+
 banned-world-error: "&cYou can't duel in this world."
 already-in-duel-error: "&cYou are already in a duel."
 no-arenas-available-with-permission: "&cThere are no Arenas available. You can create one with &e/duels arena create <name>&c and edit it with &e/duels arena edit <name>&c."
@@ -19,3 +22,21 @@ no-duel-request: "&cYou have no duel request from %opponent%."
 opponent-already-in-duel: "&e%opponent% &cis already in a duel."
 arena-unavailable: "&cThe arena is no longer available. Please try again later."
 duel-request-denied-by-sender: "&7You &cdenied &7the duel request from &e%opponent%&7."
+# Arena
+arena-created: "&7The arena &e%arena_name% &7was &2created &asuccessfully&7."
+arena-deleted: "&7The arena &e%arena_name% &7was &cdeleted &asuccessfully&7."
+arena-already-exist: "&cThe arena &e%arena_name% &cdoes already exists."
+arena-not-found: "&cThere is no arena with this name."
+arena-icon-set: "&7The &2icon &7for the arena &e%arena_name% &7was set to &6%icon%&7."
+arena-icon-fail: "&cPlease hold the item you want as icon in your hand."
+# Kit
+kit-saved: "&7Your current inventory was &asuccessfully &2saved &7as kit &e%kit_name%&7."
+kit-deleted: "&7The kit &e%kit_name% &7was &cdeleted &asuccessfully&7."
+kit-already-exist: "&cThis Kit does already exists."
+kit-not-found: "&cThis Kit does not exist."
+kit-rename: "&7The Kit &e%kit_old% &7was &asuccessfully &2renamed &7to &6%kit_new%&7."
+kit-rename-exist-new: "&cThere is already a kit called %kit_new%."
+kit-load: "&7The Kit &e%kit_name% &7was &2loaded &asuccessfully&7."
+kit-edit: "&7The Kit &e%kit_name% &7was &2edited &asuccessfully&7."
+kit-icon-set: "&7The &2icon &7for the kit &e%kit_name% &7was set to &6%icon%&7."
+kit-icon-fail: "&cPlease hold the item you want as icon in your hand."

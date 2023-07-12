@@ -6,6 +6,8 @@ import de.theredend2000.duels.game.GameState;
 import de.theredend2000.duels.kits.Kit;
 import de.theredend2000.duels.util.BlockUtils;
 import de.theredend2000.duels.util.HelpManager;
+import de.theredend2000.duels.util.MessageKey;
+import de.theredend2000.duels.util.MessageManager;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
@@ -17,13 +19,19 @@ import org.bukkit.entity.Player;
 import java.util.*;
 
 public class DuelsCommand implements CommandExecutor, TabCompleter {
+
+    private MessageManager messageManager;
+
+    public DuelsCommand(){
+        messageManager = Main.getPlugin().getMessageManager();
+    }
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if(sender instanceof Player) {
             Player player = (Player) sender;
             if (Main.getPlugin().getConfig().getBoolean("permissions.need-duels-command-permission")) {
                 if (!player.hasPermission((Objects.requireNonNull(Main.getPlugin().getConfig().getString("permissions.duels-command-permission"))))) {
-                    player.sendMessage(Main.PREFIX + "§cYou do not have the right permission to use this command.");
+                    player.sendMessage(messageManager.getMessage(MessageKey.PERMISSION_ERROR));
                     return false;
                 }
             }
@@ -39,9 +47,9 @@ public class DuelsCommand implements CommandExecutor, TabCompleter {
                             if (!Main.getPlugin().getArenaManagerHashMap().containsKey(name)) {
                                 Main.getPlugin().getArenaManagerHashMap().put(name, new Arena(name, false, new ArrayList<UUID>(), null, null, null, null, null, null, GameState.DISABLED));
                                 Main.getPlugin().getArenaManager().saveNewArena(name);
-                                player.sendMessage(Main.PREFIX + "§7The arena §e" + name + " §7was §2created §asuccessfully§7.");
+                                player.sendMessage(messageManager.getMessage(MessageKey.ARENA_CREATED).replaceAll("%arena_name%",name));
                             } else
-                                player.sendMessage(Main.PREFIX + "§cThis arena does already exist.");
+                                player.sendMessage(messageManager.getMessage(MessageKey.ARENA_ALREADY_EXIST).replaceAll("%arena_name%",name));
                         } else
                             player.sendMessage(Main.PREFIX + "§cArena names can only contain §e'Letters (a) | Numbers (1) | Underscores (_)  | Hyphen (-)'§c.");
                     }catch (Exception e){
@@ -53,9 +61,9 @@ public class DuelsCommand implements CommandExecutor, TabCompleter {
                         if(Main.getPlugin().getArenaManagerHashMap().containsKey(name)) {
                             Main.getPlugin().getArenaManagerHashMap().remove(name);
                             Main.getPlugin().getArenaManager().removeArena(name);
-                            player.sendMessage(Main.PREFIX+"§7The arena §e"+name+" §7was §cdeleted §asuccessfully§7.");
+                            player.sendMessage(messageManager.getMessage(MessageKey.ARENA_DELETED).replaceAll("%arena_name%",name));
                         }else
-                            player.sendMessage(Main.PREFIX+"§cThere is no arena with this name.");
+                            player.sendMessage(messageManager.getMessage(MessageKey.ARENA_NOT_FOUND));
                     }catch (Exception e){
                         e.printStackTrace();
                     }
@@ -66,7 +74,7 @@ public class DuelsCommand implements CommandExecutor, TabCompleter {
                             Arena arena = Main.getPlugin().getArenaManagerHashMap().get(name);
                             Main.getPlugin().getInventoryManager().getArenaEditMenu(player,arena);
                         }else
-                            player.sendMessage(Main.PREFIX+"§cThere is no arena with this name.");
+                            player.sendMessage(messageManager.getMessage(MessageKey.ARENA_NOT_FOUND));
                     }catch (Exception e){
                         e.printStackTrace();
                     }
@@ -86,11 +94,11 @@ public class DuelsCommand implements CommandExecutor, TabCompleter {
                             if(player.getItemInHand().getItemMeta() != null){
                                 Material icon = player.getInventory().getItemInMainHand().getType();
                                 Main.getPlugin().getArenaManager().setArenaMaterial(arena,icon);
-                                player.sendMessage(Main.PREFIX+"§7The §2icon §7for the arena §e"+arena.getName()+" §7was set to §6"+icon.name()+"§7.");
+                                player.sendMessage(messageManager.getMessage(MessageKey.ARENA_ICON_SET).replaceAll("%arena_name%",name).replaceAll("%icon%",icon.name()));
                             }else
-                                player.sendMessage(Main.PREFIX+"§cPlease hold the item you want as icon in your hand.");
+                                player.sendMessage(messageManager.getMessage(MessageKey.ARENA_ICON_FAIL));
                         }else
-                            player.sendMessage(Main.PREFIX+"§cThere is no arena with this name.");
+                            player.sendMessage(messageManager.getMessage(MessageKey.ARENA_NOT_FOUND));
                     }catch (Exception e){
                         e.printStackTrace();
                     }
@@ -103,9 +111,9 @@ public class DuelsCommand implements CommandExecutor, TabCompleter {
                         if(isValidInput(name)) {
                             if (!Main.getPlugin().getKitManagerHashMap().containsKey(name)) {
                                 Main.getPlugin().getKitManager().saveKit(player, name);
-                                player.sendMessage(Main.PREFIX + "§7Your current inventory was §asuccessfully §2saved §7as kit §e" + name + "§7.");
+                                player.sendMessage(messageManager.getMessage(MessageKey.KIT_SAVED).replaceAll("%kit_name%",name));
                             } else
-                                player.sendMessage(Main.PREFIX + "§cThis Kit does already exists.");
+                                player.sendMessage(messageManager.getMessage(MessageKey.KIT_ALREADY_EXIST));
                         }else
                             player.sendMessage(Main.PREFIX + "§cKit names can only contain §e'Letters (a) | Numbers (1) | Underscores (_)  | Hyphen (-)'§c.");
                     }catch (Exception e){
@@ -116,9 +124,9 @@ public class DuelsCommand implements CommandExecutor, TabCompleter {
                         String name = args[2];
                         if(Main.getPlugin().getKitManagerHashMap().containsKey(name)) {
                             Main.getPlugin().getKitManager().removeKit(name);
-                            player.sendMessage(Main.PREFIX+"§7The kit §e"+name+" §7was §cdeleted §asuccessfully§7.");
+                            player.sendMessage(messageManager.getMessage(MessageKey.KIT_DELETED).replaceAll("%kit_name%",name));
                         }else
-                            player.sendMessage(Main.PREFIX+"§cThis Kit does not exist.");
+                            player.sendMessage(messageManager.getMessage(MessageKey.KIT_NOT_FOUND));
                     }catch (Exception e){
                         e.printStackTrace();
                     }
@@ -137,28 +145,28 @@ public class DuelsCommand implements CommandExecutor, TabCompleter {
                         if (Main.getPlugin().getKitManagerHashMap().containsKey(oldName)) {
                             if (!Main.getPlugin().getKitManagerHashMap().containsKey(newName)) {
                                 Main.getPlugin().getKitManager().renameKit(oldName, newName);
-                                player.sendMessage(Main.PREFIX + "§7The Kit §e" + oldName + " §7was §asuccessfully §2renamed §7to §6" + newName + "§7.");
+                                player.sendMessage(messageManager.getMessage(MessageKey.KIT_RENAME).replaceAll("%kit_old%",oldName).replaceAll("%kit_new%",newName));
                             } else
-                                player.sendMessage(Main.PREFIX + "§cThere is already a kit called " + newName + ".");
+                                player.sendMessage(messageManager.getMessage(MessageKey.KIT_RENAME_EXIST_NEW).replaceAll("%kit_new%",newName));
                         } else
-                            player.sendMessage(Main.PREFIX + "§cThis Kit does not exist.");
+                            player.sendMessage(messageManager.getMessage(MessageKey.KIT_ALREADY_EXIST));
                     }else
                         player.sendMessage(Main.PREFIX + "§cKit names can only contain §e'Letters (a) | Numbers (1) | Underscores (_)  | Hyphen (-)'§c.");
                 }else if(args[1].equalsIgnoreCase("load") && args.length == 3){
                     String name = args[2];
                     if(Main.getPlugin().getKitManagerHashMap().containsKey(name)) {
                         Main.getPlugin().getKitManager().loadKit(player, name);
-                        player.sendMessage(Main.PREFIX + "§7The Kit §e" + name + " §7was §2loaded §asuccessfully§7.");
+                        player.sendMessage(messageManager.getMessage(MessageKey.KIT_LOAD).replaceAll("%kit_name%",name));
                     }else
-                        player.sendMessage(Main.PREFIX+"§cThis Kit does not exist.");
+                        player.sendMessage(messageManager.getMessage(MessageKey.KIT_NOT_FOUND));
                 }else if(args[1].equalsIgnoreCase("edit") && args.length == 3){
                     String name = args[2];
                     if(Main.getPlugin().getKitManagerHashMap().containsKey(name)) {
                         Main.getPlugin().getKitManagerHashMap().remove(name);
                         Main.getPlugin().getKitManager().saveKit(player,name);
-                        player.sendMessage(Main.PREFIX + "§7The Kit §e" + name + " §7was §2edited §asuccessfully§7.");
+                        player.sendMessage(messageManager.getMessage(MessageKey.KIT_EDIT).replaceAll("%kit_name%",name));
                     }else
-                        player.sendMessage(Main.PREFIX+"§cThis Kit does not exist.");
+                        player.sendMessage(messageManager.getMessage(MessageKey.KIT_NOT_FOUND));
                 }else if(args[1].equalsIgnoreCase("setIcon") && args.length == 3){
                     try {
                         String name = args[2];
@@ -167,11 +175,11 @@ public class DuelsCommand implements CommandExecutor, TabCompleter {
                             if(player.getItemInHand().getItemMeta() != null){
                                 Material icon = player.getInventory().getItemInMainHand().getType();
                                 Main.getPlugin().getKitManager().setKitMaterial(kit.getName(),icon);
-                                player.sendMessage(Main.PREFIX+"§7The §2icon §7for the kit §e"+kit.getName()+" §7was set to §6"+icon.name()+"§7.");
+                                player.sendMessage(messageManager.getMessage(MessageKey.KIT_ICON_SET).replaceAll("%kit_name%",name).replaceAll("%icon%", icon.name()));
                             }else
-                                player.sendMessage(Main.PREFIX+"§cPlease hold the item you want as icon in your hand.");
+                                player.sendMessage(messageManager.getMessage(MessageKey.KIT_ICON_FAIL));
                         }else
-                            player.sendMessage(Main.PREFIX+"§cThere is no kit with this name.");
+                            player.sendMessage(messageManager.getMessage(MessageKey.KIT_NOT_FOUND));
                     }catch (Exception e){
                         e.printStackTrace();
                     }
