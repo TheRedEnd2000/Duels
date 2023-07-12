@@ -11,14 +11,19 @@ check-for-updates: true
 message-lang: en
 
 game:
-  # The time you wait before the fight begins
-  # default: 5
-  waiting-time: 5
+  # Settings of the countdown at the start of a battle
+  waiting-time:
+    title: true
+    message: false
+    seconds: 5
 
 
-  # The time before the battle ends
-  # default: 10
-  ending-time: 10
+  # Settings of the countdown at the end of a battle
+  ending-time:
+    title: false
+    message: true
+    seconds: 10
+
 
 
   # Set the gamemode after the games end starts and joins

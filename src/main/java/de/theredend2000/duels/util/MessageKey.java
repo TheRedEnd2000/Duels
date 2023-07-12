@@ -26,6 +26,7 @@ public enum MessageKey {
     ARENA_NOT_FOUND("arena-not-found"),
     ARENA_ICON_SET("arena-icon-set"),
     ARENA_ICON_FAIL("arena-icon-fail"),
+    TYPE_NAME_CONTENT("type-name-content"),
     KIT_SAVED("kit-saved"),
     KIT_DELETED("kit-deleted"),
     KIT_ALREADY_EXIST("kit-already-exist"),
@@ -35,7 +36,27 @@ public enum MessageKey {
     KIT_LOAD("kit-load"),
     KIT_EDIT("kit-edit"),
     KIT_ICON_SET("kit-icon-set"),
-    KIT_ICON_FAIL("kit-icon-fail");
+    KIT_ICON_FAIL("kit-icon-fail"),
+    RELOAD_FILE_SUCCESS("reload-file-success"),
+    PLAYER_NOT_EXIST("player-not-exist"),
+    OPTION_INVADABLE("option-invadable"),
+    CANT_USE_OPTION_HERE("cant-use-option-here"),
+    USE_NUMBER_AS_SCORE("use-number-as-score"),
+    GET_STATS_FROM_PLAYER("get-stats-from-player"),
+    ADD_STATS_TO_PLAYER("add-stats-to-player"),
+    REMOVE_STATS_FROM_PLAYER("remove-stats-from-player"),
+    SET_STATS_OF_PLAYER("set-stats-of-player"),
+    RESET_STATS_OF_PLAYER("reset-stats-of-player"),
+    BATTLE_START_TITLE("battle-start-title"),
+    BATTLE_START_SUBTITLE("battle-start-subtitle"),
+    BATTLE_STARTED_TITLE("battle-started-title"),
+    BATTLE_STARTED_SUBTITLE("battle-started-subtitle"),
+    BATTLE_START_MESSAGE("battle-start-message"),
+    BATTLE_STARTED_MESSAGE("battle-started-message"),
+    BATTLE_END_TITLE("battle-end-title"),
+    BATTLE_END_SUBTITLE("battle-end-subtitle"),
+    BATTLE_END_MESSAGE("battle-end-message"),
+    BATTLE_ENDED_MESSAGE("battle-ended-message");
 
     private final String path;
 

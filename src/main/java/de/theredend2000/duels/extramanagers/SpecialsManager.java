@@ -42,7 +42,7 @@ public class SpecialsManager {
         lore.add("§3Stats of "+player.getDisplayName());
         lore.add("§7Rating: §d"+statsManager.getRating(player.getUniqueId()));
         lore.add("§7Wins: §d"+statsManager.getWins(player.getUniqueId()));
-        lore.add("§7Losses: §d"+statsManager.getLosses(player.getUniqueId()));
+        lore.add("§7Loses: §d"+statsManager.getLoses(player.getUniqueId()));
         lore.add("§7Kills: §d"+statsManager.getKills(player.getUniqueId()));
         lore.add("§7Deaths: §d"+statsManager.getDeaths(player.getUniqueId()));
         lore.add("§7K/D: §d"+statsManager.getKD(player.getUniqueId()));

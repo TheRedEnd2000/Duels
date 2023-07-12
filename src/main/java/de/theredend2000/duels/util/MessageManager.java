@@ -50,7 +50,7 @@ public class MessageManager {
     public String getMessage(MessageKey key) {
         String message = messagesConfig.getString(key.getPath());
         if (message != null) {
-            message = ChatColor.translateAlternateColorCodes('&', Main.PREFIX + message);
+            message = ChatColor.translateAlternateColorCodes('&', (key.name().contains("TITLE") | key.name().contains("SUBTITLE") ? "" : Main.PREFIX) + message);
             return message;
         }
         return "Message not found: " + key.name();

@@ -2,7 +2,6 @@ package de.theredend2000.duels.arenas;
 
 import de.theredend2000.duels.Main;
 import de.theredend2000.duels.game.GameState;
-import org.apache.logging.log4j.core.appender.rolling.action.IfAll;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;

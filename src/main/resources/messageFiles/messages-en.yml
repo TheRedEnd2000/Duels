@@ -3,7 +3,7 @@ only-players-error: "&cOnly players can use this command."
 duel-command-permission-error: "&cYou do not have the right permission to use this command."
 
 
-# Commands
+# COMMANDS
 
 banned-world-error: "&cYou can't duel in this world."
 already-in-duel-error: "&cYou are already in a duel."
@@ -29,6 +29,7 @@ arena-already-exist: "&cThe arena &e%arena_name% &cdoes already exists."
 arena-not-found: "&cThere is no arena with this name."
 arena-icon-set: "&7The &2icon &7for the arena &e%arena_name% &7was set to &6%icon%&7."
 arena-icon-fail: "&cPlease hold the item you want as icon in your hand."
+type-name-content: "&c%type% names can only contain &e'Letters (a) | Numbers (1) | Underscores (_)  | Hyphen (-)'&c."
 # Kit
 kit-saved: "&7Your current inventory was &asuccessfully &2saved &7as kit &e%kit_name%&7."
 kit-deleted: "&7The kit &e%kit_name% &7was &cdeleted &asuccessfully&7."
@@ -40,3 +41,31 @@ kit-load: "&7The Kit &e%kit_name% &7was &2loaded &asuccessfully&7."
 kit-edit: "&7The Kit &e%kit_name% &7was &2edited &asuccessfully&7."
 kit-icon-set: "&7The &2icon &7for the kit &e%kit_name% &7was set to &6%icon%&7."
 kit-icon-fail: "&cPlease hold the item you want as icon in your hand."
+# Reload
+reload-file-success: "&7The &3%file%.yml file &7was &ereloaded &asuccessfully&7."
+# Stats
+player-not-exist: "&cThis player does not exist."
+option-invadable: "&cYou option is invadable. Use one from the following options: &e rating, wins, loses, kills, deaths"
+cant-use-option-here: "&cYou can't use this option here."
+use-number-as-score: "&cPlease use a number for the score."
+get-stats-from-player: "&5&lSTATS OF %player%"
+add-stats-to-player: "&7You have &2successfully &aadded &e%score% %option%&7 to &6%player%&7."
+remove-stats-from-player: "&7You have &2successfully &cremoved &e%score% %option%&7 from &6%player%&7."
+set-stats-of-player: "&7You have &2successfully &9set &6%player%'s &e%option% &7to &e%score%&7."
+reset-stats-of-player: "&7You have &2successfully &4reset &6%player%'s &e%option%&7."
+
+# COUNTDOWNS
+
+# Start
+battle-start-title: "&6&l%seconds%"
+battle-start-subtitle: "&bGet ready for battle."
+battle-started-title: "&2&lFight"
+battle-started-subtitle: "&bKill your opponent."
+battle-start-message: "&7Battle starts in &e%seconds% second(s)&7."
+battle-started-message: "&6Battle started! &4Kill your opponent."
+# End
+battle-end-title: "&c&l%seconds%"
+battle-end-subtitle: "&7Until the battle ends."
+battle-end-message: "&7Battle ends in &e%seconds% second(s)&7."
+battle-ended-message: "&cBattle ended."
+

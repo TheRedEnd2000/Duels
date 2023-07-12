@@ -50,8 +50,7 @@ public class HelpManager {
         message.addExtra("§a> §6§l/duels stats remove <player> ");
         message.addExtra(getOptionText());
         message.addExtra(" §6§l<score> \n  §bRemoves the following score to option of the player.\n");
-        message.addExtra("§a> §6§l/duels stats get <player> ");
-        message.addExtra(getOptionText());
+        message.addExtra("§a> §6§l/duels stats get <player>");
         message.addExtra("\n  §bGets the following score from option of the player.\n");
         message.addExtra("§a> §6§l/duels stats reset <player> ");
         message.addExtra(getOptionText());

@@ -49,10 +49,10 @@ public class ScoreboardManagers {
                                 case RUNNING:
                                     objective.getScore("§b").setScore(9);
                                     objective.getScore("§7Opponent:").setScore(8);
-                                    objective.getScore("§9  ➤ " + getOpponent.getDisplayName()+" §a§l"+showArrowIndicator(player,getOpponent)).setScore(7);
+                                    objective.getScore("§9  ➤ §a§l"+showArrowIndicator(player,getOpponent) +" §9"+ getOpponent.getDisplayName()+" §4"+getOpponent.getHealth()).setScore(7);
                                     objective.getScore("§c").setScore(6);
-                                    objective.getScore("§7Opponent hearts").setScore(5);
-                                    objective.getScore("§c  ➤ " + getHeartString(getOpponent.getHealth())).setScore(4);
+                                    objective.getScore("§7Kit").setScore(5);
+                                    objective.getScore("§6  ➤ " + Main.getPlugin().getArenaKit().get(arena).getName()).setScore(4);
                                     objective.getScore("§2").setScore(3);
                                     objective.getScore("§7Arena:").setScore(2);
                                     objective.getScore("§6  ➤ " + arena.getName()).setScore(1);
@@ -92,41 +92,34 @@ public class ScoreboardManagers {
     }
 
     public String showArrowIndicator(Player player, Player target) {
-        Location observerLocation = player.getEyeLocation();
+        Location playerLocation = player.getLocation();
         Location targetLocation = target.getLocation();
 
-        Vector direction = targetLocation.subtract(observerLocation).toVector().normalize();
-        double dot = observerLocation.getDirection().dot(direction);
+        double deltaX = targetLocation.getX() - playerLocation.getX();
+        double deltaZ = targetLocation.getZ() - playerLocation.getZ();
 
-        if (dot >= 0.99) {
-            return "↑";
-        } else if (dot <= -0.99) {
+        double angle = Math.atan2(deltaZ, deltaX) * 180 / Math.PI;
+        angle += 180; // Um den Winkel in den Bereich von 0 bis 360 Grad zu bringen
+
+        if (angle >= 22.5 && angle < 67.5) {
+            return "↗";
+        } else if (angle >= 67.5 && angle < 112.5) {
+            return "→";
+        } else if (angle >= 112.5 && angle < 157.5) {
+            return "↘";
+        } else if (angle >= 157.5 && angle < 202.5) {
             return "↓";
+        } else if (angle >= 202.5 && angle < 247.5) {
+            return "↙";
+        } else if (angle >= 247.5 && angle < 292.5) {
+            return "←";
+        } else if (angle >= 292.5 && angle < 337.5) {
+            return "↖";
         } else {
-            double yawPlayer = normalizeYaw(observerLocation.getYaw());
-            double yawTarget = normalizeYaw(getYawBetweenLocations(observerLocation, targetLocation));
-
-            double angle = Math.abs(yawPlayer - yawTarget);
-
-            if (angle < 22.5 || angle >= 337.5) {
-                return "↑";
-            } else if (angle >= 22.5 && angle < 67.5) {
-                return "↗";
-            } else if (angle >= 67.5 && angle < 112.5) {
-                return "→";
-            } else if (angle >= 112.5 && angle < 157.5) {
-                return "↘";
-            } else if (angle >= 157.5 && angle < 202.5) {
-                return "↓";
-            } else if (angle >= 202.5 && angle < 247.5) {
-                return "↙";
-            } else if (angle >= 247.5 && angle < 292.5) {
-                return "←";
-            } else {
-                return "↖";
-            }
+            return "↑";
         }
     }
+
 
     private float normalizeYaw(float yaw) {
         yaw %= 360;

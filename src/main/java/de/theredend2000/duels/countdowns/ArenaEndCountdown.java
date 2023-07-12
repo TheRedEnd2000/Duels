@@ -3,6 +3,8 @@ package de.theredend2000.duels.countdowns;
 import de.theredend2000.duels.Main;
 import de.theredend2000.duels.arenas.Arena;
 import de.theredend2000.duels.game.GameState;
+import de.theredend2000.duels.util.MessageKey;
+import de.theredend2000.duels.util.MessageManager;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -13,14 +15,16 @@ import java.util.UUID;
 public class ArenaEndCountdown {
 
     private HashMap<Arena, Integer> timeEnding;
+    private MessageManager messageManager;
 
     public ArenaEndCountdown(){
         timeEnding = new HashMap<>();
         startRunnable();
+        messageManager = Main.getPlugin().getMessageManager();
     }
 
     public void addEndingCountdownForArena(Arena arena){
-        int endingtime = Main.getPlugin().getConfig().getInt("game.ending-time");
+        int endingtime = Main.getPlugin().getConfig().getInt("game.ending-time.seconds");
         timeEnding.put(arena, endingtime);
     }
 
@@ -34,7 +38,15 @@ public class ArenaEndCountdown {
                         for (UUID uuid : arena.getPlayerInGame()) {
                             Player player = Bukkit.getPlayer(uuid);
                             if (player == null) return;
-                            player.sendMessage(Main.PREFIX+"§7Battle ends in §e"+currentTime+" seconds§7.");
+                            if(Main.getPlugin().getConfig().getBoolean("game.ending-time.title")){
+                                player.sendTitle(messageManager.getMessage(MessageKey.BATTLE_END_TITLE).replaceAll("%seconds%", String.valueOf(currentTime)), messageManager.getMessage(MessageKey.BATTLE_END_SUBTITLE).replaceAll("%seconds%", String.valueOf(currentTime)));
+                            }
+                            if(Main.getPlugin().getConfig().getBoolean("game.ending-time.message")){
+                                if (currentTime == 0)
+                                    player.sendMessage(messageManager.getMessage(MessageKey.BATTLE_ENDED_MESSAGE).replaceAll("%seconds%", String.valueOf(currentTime)));
+                                else
+                                    player.sendMessage(messageManager.getMessage(MessageKey.BATTLE_END_MESSAGE).replaceAll("%seconds%", String.valueOf(currentTime)));
+                            }
                             Main.getPlugin().getItemManager().setPlayAgainItem(player);
                             Main.getPlugin().getItemManager().setLeaveItem(player);
                         }

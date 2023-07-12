@@ -2,6 +2,7 @@ package de.theredend2000.duels.stats;
 
 import com.google.common.base.Charsets;
 import de.theredend2000.duels.Main;
+import de.theredend2000.duels.util.MessageKey;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
@@ -37,7 +38,7 @@ public class StatsManager {
         statsYaml.set("Stats."+player.getUniqueId()+".playerName",player.getName());
         statsYaml.set("Stats."+player.getUniqueId()+".rating", 1000);
         statsYaml.set("Stats."+player.getUniqueId()+".wins",0);
-        statsYaml.set("Stats."+player.getUniqueId()+".losses",0);
+        statsYaml.set("Stats."+player.getUniqueId()+".loses",0);
         statsYaml.set("Stats."+player.getUniqueId()+".kills",0);
         statsYaml.set("Stats."+player.getUniqueId()+".deaths",0);
         statsYaml.set("Stats."+player.getUniqueId()+".k/d",0);
@@ -54,8 +55,8 @@ public class StatsManager {
     public int getWins(UUID uuid){
         return statsYaml.getInt("Stats."+uuid+".wins");
     }
-    public int getLosses(UUID uuid){
-        return statsYaml.getInt("Stats."+uuid+".losses");
+    public int getLoses(UUID uuid){
+        return statsYaml.getInt("Stats."+uuid+".loses");
     }
     public int getKills(UUID uuid){
         return statsYaml.getInt("Stats."+uuid+".kills");
@@ -90,10 +91,10 @@ public class StatsManager {
         saveStatsYaml();
     }
 
-    public void addLosses(Player player, int count) {
-        int currentLosses = getLosses(player.getUniqueId());
-        int newLosses = Math.max(currentLosses + count, 0);
-        statsYaml.set("Stats." + player.getUniqueId() + ".losses", newLosses);
+    public void addLoses(Player player, int count) {
+        int currentLoses = getLoses(player.getUniqueId());
+        int newLoses = Math.max(currentLoses + count, 0);
+        statsYaml.set("Stats." + player.getUniqueId() + ".loses", newLoses);
         saveStatsYaml();
     }
 
@@ -131,9 +132,9 @@ public class StatsManager {
         updateKD(player);
     }
 
-    public void setLosses(Player player, double count) {
-        int newLosses = Math.max((int) count, 0);
-        statsYaml.set("Stats." + player.getUniqueId() + ".losses", newLosses);
+    public void setLoses(Player player, double count) {
+        int newLoses = Math.max((int) count, 0);
+        statsYaml.set("Stats." + player.getUniqueId() + ".loses", newLoses);
         saveStatsYaml();
         updateKD(player);
     }
@@ -166,7 +167,7 @@ public class StatsManager {
         addKills(winner,1);
         addWins(winner,1);
         addRating(winner,(int) Math.ceil(winner.getHealth()));
-        addLosses(looser,1);
+        addLoses(looser,1);
         removeRating(looser,(int) Math.ceil(winner.getHealth()));
         updateKD(winner);
         updateKD(looser);
@@ -220,7 +221,7 @@ public class StatsManager {
         switch (value.toLowerCase()){
             case "rating":
             case "wins":
-            case "losses":
+            case "loses":
             case "kills":
             case "deaths":
             case "k/d":
@@ -235,8 +236,8 @@ public class StatsManager {
                 return getRating(uuid);
             case "wins":
                 return getWins(uuid);
-            case "losses":
-                return getLosses(uuid);
+            case "loses":
+                return getLoses(uuid);
             case "kills":
                 return getKills(uuid);
             case "deaths":
@@ -255,19 +256,19 @@ public class StatsManager {
         switch (symbole.toLowerCase()){
             case "add":
                 statsYaml.set("Stats."+uuid+"."+getOption(option), currentScore+score);
-                player.sendMessage(Main.PREFIX+"§7You have §2successfully §aadded §e"+score+" score§7 to the §estatistics "+getOption(option)+" §7of §6"+playerName+"§7.");
+                player.sendMessage(Main.getPlugin().getMessageManager().getMessage(MessageKey.ADD_STATS_TO_PLAYER).replaceAll("%score%", String.valueOf(score)).replaceAll("%option%",getOption(option)).replaceAll("%player%",playerName));
                 break;
             case "remove":
                 statsYaml.set("Stats."+uuid+"."+getOption(option), currentScore-score);
-                player.sendMessage(Main.PREFIX+"§7You have §2successfully §cremoved §e"+score+" score§7 from the §estatistics "+getOption(option)+" §7of §6"+playerName+"§7.");
+                player.sendMessage(Main.getPlugin().getMessageManager().getMessage(MessageKey.REMOVE_STATS_FROM_PLAYER).replaceAll("%score%", String.valueOf(score)).replaceAll("%option%",getOption(option)).replaceAll("%player%",playerName));
                 break;
             case "set":
                 statsYaml.set("Stats."+uuid+"."+getOption(option), score);
-                player.sendMessage(Main.PREFIX+"§7You have §2successfully §9set §7the §estatistics "+getOption(option)+" §7of §6"+playerName+"§7 to §e"+score+" score§7.");
+                player.sendMessage(Main.getPlugin().getMessageManager().getMessage(MessageKey.SET_STATS_OF_PLAYER).replaceAll("%score%", String.valueOf(score)).replaceAll("%option%",getOption(option)).replaceAll("%player%",playerName));
                 break;
             case "reset":
                 statsYaml.set("Stats."+uuid+"."+getOption(option), score);
-                player.sendMessage(Main.PREFIX+"§7You have §2successfully §4reseted §7the §estatistics "+getOption(option)+" §7of §6"+playerName+"§7.");
+                player.sendMessage(Main.getPlugin().getMessageManager().getMessage(MessageKey.RESET_STATS_OF_PLAYER).replaceAll("%option%",getOption(option)).replaceAll("%player%",playerName));
                 break;
         }
         saveStatsYaml();
