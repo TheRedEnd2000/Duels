@@ -119,6 +119,27 @@ public class GameManager {
         Main.getPlugin().getPlayAgainHashMap().remove(arena);
     }
 
+    public void endAllDuelsWhenClosing(){
+        for(Arena arena : Main.getPlugin().getArenaManagerHashMap().values()){
+            if(arena.getGameState() != GameState.WAITING || arena.getGameState() != GameState.DISABLED){
+                BlockUtils.restoreBlocks(arena);
+                Main.getPlugin().getArenaManager().removeEntitiesInArena(arena);
+                for(UUID uuid : arena.getPlayerInGame()){
+                    Player player = Bukkit.getPlayer(uuid);
+                    if(player == null) continue;
+                    regeneratePlayer(player);
+                    player.teleport(arena.getLobbySpawn());
+                    player.setFlying(false);
+                    player.setAllowFlight(false);
+                    player.setScoreboard(Bukkit.getScoreboardManager().getMainScoreboard());
+                    Main.getPlugin().getPlayerSavesManager().loadPlayer(player);
+                    for (PotionEffect effect : player.getActivePotionEffects())
+                        player.removePotionEffect(effect.getType());
+                }
+            }
+        }
+    }
+
     public void leaveDuel(Player player,Arena arena){
         player.teleport(arena.getLobbySpawn());
         player.setFlying(false);

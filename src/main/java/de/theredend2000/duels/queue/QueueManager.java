@@ -62,10 +62,7 @@ public class QueueManager {
             } else if (queueManager.getPlayer2() != null && queueManager.getPlayer2().equals(player)) {
                 queueManager.setPlayer2(null);
             }
-
-            // Überprüfen, ob beide Spieler in der Warteschlange null sind
             if (queueManager.getPlayer1() == null && queueManager.getPlayer2() == null) {
-                // Entfernen Sie die Arena aus der HashMap
                 Main.getPlugin().getQueueManagerHashMap().remove(arena);
             }
         }

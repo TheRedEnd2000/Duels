@@ -3,6 +3,8 @@ package de.theredend2000.duels.extramanagers;
 import de.theredend2000.duels.Main;
 import de.theredend2000.duels.arenas.Arena;
 import de.theredend2000.duels.game.GameState;
+import net.md_5.bungee.api.ChatMessageType;
+import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -49,7 +51,7 @@ public class ScoreboardManagers {
                                 case RUNNING:
                                     objective.getScore("§b").setScore(9);
                                     objective.getScore("§7Opponent:").setScore(8);
-                                    objective.getScore("§9  ➤ §a§l"+showArrowIndicator(player,getOpponent) +" §9"+ getOpponent.getDisplayName()+" §4"+getOpponent.getHealth()).setScore(7);
+                                    objective.getScore("§9  ➤ §a§l"+showArrowIndicator(player,getOpponent) +" §9"+ getOpponent.getDisplayName()+" §4"+getHealthString(getOpponent.getHealth())).setScore(7);
                                     objective.getScore("§c").setScore(6);
                                     objective.getScore("§7Kit").setScore(5);
                                     objective.getScore("§6  ➤ " + Main.getPlugin().getArenaKit().get(arena).getName()).setScore(4);
@@ -69,26 +71,22 @@ public class ScoreboardManagers {
                                     break;
                             }
                             player.setScoreboard(board);
+                            String arrowIndicator = showArrowIndicator(player, getOpponent);
+                            sendActionBar(player, arrowIndicator);
                         }
                     }
                 }
             }
-        }.runTaskTimer(Main.getPlugin(),0,20);
+        }.runTaskTimer(Main.getPlugin(),0,5);
     }
 
-    private String getHeartString(double health) {
-        int maxHealth = 20;
-        int hearts = (int) Math.ceil(health / 2.0);
+    private String getHealthString(double health) {
+        return String.format("%.1f", health).replace(",", ".");
+    }
 
-        StringBuilder heartString = new StringBuilder();
-        for (int i = 0; i < maxHealth / 2; i++) {
-            if (i < hearts) {
-                heartString.append("§c❤");
-            } else {
-                heartString.append("§7❤");
-            }
-        }
-        return heartString.toString();
+
+    public void sendActionBar(Player player, String message) {
+        player.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(message));
     }
 
     public String showArrowIndicator(Player player, Player target) {
@@ -98,27 +96,23 @@ public class ScoreboardManagers {
         double deltaX = targetLocation.getX() - playerLocation.getX();
         double deltaZ = targetLocation.getZ() - playerLocation.getZ();
 
-        double angle = Math.atan2(deltaZ, deltaX) * 180 / Math.PI;
-        angle += 180; // Um den Winkel in den Bereich von 0 bis 360 Grad zu bringen
-
-        if (angle >= 22.5 && angle < 67.5) {
-            return "↗";
-        } else if (angle >= 67.5 && angle < 112.5) {
-            return "→";
-        } else if (angle >= 112.5 && angle < 157.5) {
-            return "↘";
-        } else if (angle >= 157.5 && angle < 202.5) {
-            return "↓";
-        } else if (angle >= 202.5 && angle < 247.5) {
-            return "↙";
-        } else if (angle >= 247.5 && angle < 292.5) {
-            return "←";
-        } else if (angle >= 292.5 && angle < 337.5) {
-            return "↖";
+        if (Math.abs(deltaX) > Math.abs(deltaZ)) {
+            if (deltaX > 0) {
+                return "→";
+            } else {
+                return "←";
+            }
         } else {
-            return "↑";
+            if (deltaZ > 0) {
+                return "↑";
+            } else {
+                return "↓";
+            }
         }
     }
+
+
+
 
 
     private float normalizeYaw(float yaw) {

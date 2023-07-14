@@ -225,12 +225,12 @@ public class DuelsCommand implements CommandExecutor, TabCompleter {
                         }
                         UUID playerUUID = Main.getPlugin().getStatsManager().getPlayerUUID(playerName);
                         player.sendMessage(messageManager.getMessage(MessageKey.GET_STATS_FROM_PLAYER).replaceAll("%player%",playerName));
-                        player.sendMessage("§7Rating: §d"+Main.getPlugin().getStatsManager().getRating(playerUUID));
-                        player.sendMessage("§7Wins: §d"+Main.getPlugin().getStatsManager().getWins(playerUUID));
-                        player.sendMessage("§7Loses: §d"+Main.getPlugin().getStatsManager().getLoses(playerUUID));
-                        player.sendMessage("§7Kills: §d"+Main.getPlugin().getStatsManager().getKills(playerUUID));
-                        player.sendMessage("§7Deaths: §d"+Main.getPlugin().getStatsManager().getDeaths(playerUUID));
-                        player.sendMessage("§7K/D: §d"+Main.getPlugin().getStatsManager().getKD(playerUUID));
+                        player.sendMessage("§6>> §7Rating: §d"+Main.getPlugin().getStatsManager().getRating(playerUUID));
+                        player.sendMessage("§6>> §7Wins: §d"+Main.getPlugin().getStatsManager().getWins(playerUUID));
+                        player.sendMessage("§6>> §7Loses: §d"+Main.getPlugin().getStatsManager().getLoses(playerUUID));
+                        player.sendMessage("§6>> §7Kills: §d"+Main.getPlugin().getStatsManager().getKills(playerUUID));
+                        player.sendMessage("§6>> §7Deaths: §d"+Main.getPlugin().getStatsManager().getDeaths(playerUUID));
+                        player.sendMessage("§6>> §7K/D: §d"+Main.getPlugin().getStatsManager().getKD(playerUUID));
                     }else
                         HelpManager.sendPlayerStatsHelp(player);
                 }else if(args.length == 2){

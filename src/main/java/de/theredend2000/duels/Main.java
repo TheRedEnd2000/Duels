@@ -84,7 +84,7 @@ public final class Main extends JavaPlugin {
     @Override
     public void onDisable() {
         arenaManager.saveAllArenas();
-        BlockUtils.restoreAllBlocks();
+        gameManager.endAllDuelsWhenClosing();
     }
 
     private void initManagers(){

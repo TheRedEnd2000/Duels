@@ -108,7 +108,7 @@ public class GameListeners implements Listener {
             if (!arena.getGameState().equals(GameState.RUNNING))
                 event.setCancelled(true);
             if (arena.getGameState().equals(GameState.RUNNING) || arena.getGameState().equals(GameState.GAME_END)){
-                if (player.getHealth() - event.getFinalDamage() <= 0) {
+                if (player.getHealth() - event.getFinalDamage() <= 0 && player.getInventory().getItemInOffHand().getType() != Material.TOTEM_OF_UNDYING && player.getInventory().getItemInHand().getType() != Material.TOTEM_OF_UNDYING) {
                     for (UUID uuid : arena.getPlayerInGame()) {
                         Player p = Bukkit.getPlayer(uuid);
                         if (p == null) continue;
@@ -128,7 +128,7 @@ public class GameListeners implements Listener {
         if(Main.getPlugin().getArenaManager().playerIsAlreadyInArena(player) && Main.getPlugin().getArenaManager().playerIsAlreadyInArena(damager)){
             Arena arena = Main.getPlugin().getArenaManager().getPlayerCurrentArena(player);
             if(arena.getGameState().equals(GameState.RUNNING) || arena.getGameState().equals(GameState.GAME_END)) {
-                if (player.getHealth() - event.getFinalDamage() <= 0) {
+                if (player.getHealth() - event.getFinalDamage() <= 0 && player.getInventory().getItemInOffHand().getType() != Material.TOTEM_OF_UNDYING && player.getInventory().getItemInHand().getType() != Material.TOTEM_OF_UNDYING) {
                     damager.sendMessage(Main.PREFIX+Main.getPlugin().getSpecialsManager().getDeathMessageWithKiller(event.getCause(),damager,player));
                     player.sendMessage(Main.PREFIX+Main.getPlugin().getSpecialsManager().getDeathMessageWithKiller(event.getCause(),damager,player));
                 }
