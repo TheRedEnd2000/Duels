@@ -81,11 +81,11 @@ public class ScoreboardManagers {
         }.runTaskTimer(Main.getPlugin(),0,5);
     }
 
-    private String getHealthString(double health) {
+    public String getHealthString(double health) {
         return String.format("%.1f", health).replace(",", ".");
     }
 
-    private String getDistance(Player player, Player target){
+    public String getDistance(Player player, Player target){
         double distance = player.getLocation().distance(target.getLocation());
         return String.format("%.1f", distance).replace(",", ".");
     }

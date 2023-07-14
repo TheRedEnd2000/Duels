@@ -166,6 +166,17 @@ public class ArenaManager {
         return false;
     }
 
+    public Player getOpponent(Arena arena,Player player){
+        for(UUID uuid : arena.getPlayerInGame()){
+            if(!uuid.equals(player.getUniqueId())){
+                Player opponent = Bukkit.getPlayer(uuid);
+                if(opponent == null) return null;
+                return opponent;
+            }
+        }
+        return null;
+    }
+
     public boolean existsArena(String arenaName){
         for(Arena arena : Main.getPlugin().getArenaManagerHashMap().values()){
             if(arena.getName().equals(arenaName)){
