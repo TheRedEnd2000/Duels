@@ -16,6 +16,7 @@ import de.theredend2000.duels.extramanagers.ItemManager;
 import de.theredend2000.duels.kits.Kit;
 import de.theredend2000.duels.kits.KitManager;
 import de.theredend2000.duels.listeners.*;
+import de.theredend2000.duels.placeholders.PlaceholderExtension;
 import de.theredend2000.duels.playerSaves.PlayerSaves;
 import de.theredend2000.duels.playerSaves.PlayerSavesManager;
 import de.theredend2000.duels.queue.Queue;
@@ -78,6 +79,7 @@ public final class Main extends JavaPlugin {
             initBannedWorlds();
             arenaManager.loadAllArena();
             kitManager.loadAllKits();
+            checkPlaceholderAPI();
         });
     }
 
@@ -102,6 +104,14 @@ public final class Main extends JavaPlugin {
         specialsManager = new SpecialsManager();
         new HelpManager();
         Bukkit.getConsoleSender().sendMessage("§aAll Managers loaded.");
+    }
+
+    private void checkPlaceholderAPI(){
+        if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) {
+            Bukkit.getConsoleSender().sendMessage(Main.PREFIX+"§aDuels detected PlaceholderAPI, enabling placeholders.");
+            new PlaceholderExtension().register();
+            Bukkit.getConsoleSender().sendMessage(Main.PREFIX+"§2§lAll placeholders successfully enabled.");
+        }
     }
 
     private void initListeners(){

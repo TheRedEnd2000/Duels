@@ -132,9 +132,9 @@ public class GameManager {
                     player.setFlying(false);
                     player.setAllowFlight(false);
                     player.setScoreboard(Bukkit.getScoreboardManager().getMainScoreboard());
-                    Main.getPlugin().getPlayerSavesManager().loadPlayer(player);
                     for (PotionEffect effect : player.getActivePotionEffects())
                         player.removePotionEffect(effect.getType());
+                    Main.getPlugin().getPlayerSavesManager().loadPlayer(player);
                 }
             }
         }

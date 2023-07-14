@@ -2,6 +2,7 @@ name: Duels
 version: 1.0
 main: de.theredend2000.duels.Main
 api-version: 1.13
+softdepend: [PlaceholderAPI]
 commands:
   duels:
   duel:

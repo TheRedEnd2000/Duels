@@ -168,6 +168,7 @@ public class StatsManager {
         addWins(winner,1);
         addRating(winner,(int) Math.ceil(winner.getHealth()));
         addLoses(looser,1);
+        addDeaths(looser,1);
         removeRating(looser,(int) Math.ceil(winner.getHealth()));
         updateKD(winner);
         updateKD(looser);

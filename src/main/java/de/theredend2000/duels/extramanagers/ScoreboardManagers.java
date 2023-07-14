@@ -30,6 +30,7 @@ public class ScoreboardManagers {
                             ArrayList<UUID> players = new ArrayList<>(arena.getPlayerInGame());
                             players.remove(player.getUniqueId());
                             Player getOpponent = Bukkit.getPlayer(players.get(0));
+                            if(getOpponent == null) continue;
                             Scoreboard board = Bukkit.getScoreboardManager().getNewScoreboard();
                             Objective objective = board.registerNewObjective("duel", "dummy");
                             objective.setDisplayName("§9Duels");
@@ -51,7 +52,7 @@ public class ScoreboardManagers {
                                 case RUNNING:
                                     objective.getScore("§b").setScore(9);
                                     objective.getScore("§7Opponent:").setScore(8);
-                                    objective.getScore("§9  ➤ §a§l"+showArrowIndicator(player,getOpponent) +" §9"+ getOpponent.getDisplayName()+" §4"+getHealthString(getOpponent.getHealth())).setScore(7);
+                                    objective.getScore("§9  ➤ §a§l"+showArrowIndicator(player,getOpponent)+getDistance(player,getOpponent) +"m §9"+ getOpponent.getDisplayName()+" §4"+getHealthString(getOpponent.getHealth())).setScore(7);
                                     objective.getScore("§c").setScore(6);
                                     objective.getScore("§7Kit").setScore(5);
                                     objective.getScore("§6  ➤ " + Main.getPlugin().getArenaKit().get(arena).getName()).setScore(4);
@@ -84,6 +85,11 @@ public class ScoreboardManagers {
         return String.format("%.1f", health).replace(",", ".");
     }
 
+    private String getDistance(Player player, Player target){
+        double distance = player.getLocation().distance(target.getLocation());
+        return String.format("%.1f", distance).replace(",", ".");
+    }
+
 
     public void sendActionBar(Player player, String message) {
         player.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(message));
@@ -96,40 +102,30 @@ public class ScoreboardManagers {
         double deltaX = targetLocation.getX() - playerLocation.getX();
         double deltaZ = targetLocation.getZ() - playerLocation.getZ();
 
-        if (Math.abs(deltaX) > Math.abs(deltaZ)) {
-            if (deltaX > 0) {
-                return "→";
-            } else {
-                return "←";
-            }
-        } else {
-            if (deltaZ > 0) {
+        double angle = Math.atan2(-deltaX, deltaZ);
+        double degrees = Math.toDegrees(angle) + 180;
+
+        int sector = (int) Math.round(degrees / 45.0) % 8;
+
+        switch (sector) {
+            case 0:
                 return "↑";
-            } else {
+            case 1:
+                return "↗";
+            case 2:
+                return "→";
+            case 3:
+                return "↘";
+            case 4:
                 return "↓";
-            }
+            case 5:
+                return "↙";
+            case 6:
+                return "←";
+            case 7:
+                return "↖";
+            default:
+                return "↑";
         }
     }
-
-
-
-
-
-    private float normalizeYaw(float yaw) {
-        yaw %= 360;
-        if (yaw < -180) {
-            yaw += 360;
-        } else if (yaw > 180) {
-            yaw -= 360;
-        }
-        return yaw;
-    }
-
-    private float getYawBetweenLocations(Location from, Location to) {
-        double dx = to.getX() - from.getX();
-        double dz = to.getZ() - from.getZ();
-        float yaw = (float) Math.toDegrees(Math.atan2(dz, -dx));
-        return normalizeYaw(yaw);
-    }
-
 }
