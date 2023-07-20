@@ -167,10 +167,8 @@ public final class Main extends JavaPlugin {
     public static PlayerMenuUtility getPlayerMenuUtility(Player p) {
         PlayerMenuUtility playerMenuUtility;
         if (!(playerMenuUtilityMap.containsKey(p))) {
-
             playerMenuUtility = new PlayerMenuUtility(p);
             playerMenuUtilityMap.put(p, playerMenuUtility);
-
             return playerMenuUtility;
         } else {
             return playerMenuUtilityMap.get(p);
