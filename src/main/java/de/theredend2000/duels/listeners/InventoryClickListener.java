@@ -123,10 +123,10 @@ public class InventoryClickListener implements Listener {
                                 player.closeInventory();
                                 break;
                             case "duel.main.arena":
-                                new ArenaListMenu(Main.getPlayerMenuUtility(player)).open(opponent.getDisplayName(), arena.getName(),kit.getName());
+                                new ArenaListMenu(Main.getPlayerMenuUtility(player)).open(opponent.getDisplayName(), arena.getName(),kit.getName(),null);
                                 break;
                             case "duel.main.kit":
-                                new KitListMenu(Main.getPlayerMenuUtility(player)).open(opponent.getDisplayName(), arena.getName(),kit.getName());
+                                new KitListMenu(Main.getPlayerMenuUtility(player)).open(opponent.getDisplayName(), arena.getName(),kit.getName(),null);
                                 break;
                         }
                     }

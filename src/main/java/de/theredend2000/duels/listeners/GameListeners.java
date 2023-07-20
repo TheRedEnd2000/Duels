@@ -139,6 +139,7 @@ public class GameListeners implements Listener {
     @EventHandler
     public void onInteract(PlayerInteractEvent event){
         Player player = event.getPlayer();
+
         if(Main.getPlugin().getArenaManager().playerIsAlreadyInArena(player)){
             Arena arena = Main.getPlugin().getArenaManager().getPlayerCurrentArena(player);
             for (String materialString : Main.getPlugin().getConfig().getStringList("lists.allowed-items")) {

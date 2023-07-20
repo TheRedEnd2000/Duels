@@ -4,12 +4,14 @@ import de.theredend2000.duels.Main;
 import de.theredend2000.duels.arenas.Arena;
 import de.theredend2000.duels.kits.Kit;
 import de.theredend2000.duels.util.ItemBuilder;
+import net.wesjd.anvilgui.AnvilGUI;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemFlag;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Objects;
 

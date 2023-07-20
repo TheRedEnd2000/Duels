@@ -10,12 +10,14 @@ import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 
 public abstract class ArenaMenu implements InventoryHolder {
 
     protected PlayerMenuUtility playerMenuUtility;
     protected Inventory inventory;
+    protected String search;
     protected ItemStack FILLER_GLASS = makeItem(Material.GRAY_STAINED_GLASS_PANE, " ");
 
     public ArenaMenu(PlayerMenuUtility playerMenuUtility) {
@@ -23,9 +25,11 @@ public abstract class ArenaMenu implements InventoryHolder {
     }
     public abstract String getMenuName();
     public abstract int getSlots();
+    public abstract ArrayList<String> getKeysArray();
     public abstract void handleMenu(InventoryClickEvent e);
     public abstract void setMenuItems(String opponent, String arena, String kit);
-    public void open(String opponent,String arena, String kit) {
+    public void open(String opponent,String arena, String kit, String search) {
+        this.search = search;
         inventory = Bukkit.createInventory(this, getSlots(), getMenuName());
 
         this.setMenuItems(opponent,arena, kit);

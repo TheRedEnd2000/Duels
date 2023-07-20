@@ -24,7 +24,9 @@ import de.theredend2000.duels.queue.QueueManager;
 import de.theredend2000.duels.stats.StatsManager;
 import de.theredend2000.duels.util.BlockUtils;
 import de.theredend2000.duels.util.HelpManager;
+import de.theredend2000.duels.util.ItemBuilder;
 import de.theredend2000.duels.util.MessageManager;
+import net.wesjd.anvilgui.AnvilGUI;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
@@ -34,6 +36,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Objects;
 

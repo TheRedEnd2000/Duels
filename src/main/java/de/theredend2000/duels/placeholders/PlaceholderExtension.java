@@ -90,14 +90,19 @@ public class PlaceholderExtension extends PlaceholderExpansion {
         }else if(params.equalsIgnoreCase("game_starting_seconds")){
             if(Main.getPlugin().getArenaManager().playerIsAlreadyInArena(player)) {
                 Arena arena = Main.getPlugin().getArenaManager().getPlayerCurrentArena(player);
-                int seconds = Main.getPlugin().getArenaWaitingCountdown().getCurrentTime(arena);
-                return String.valueOf(Main.getPlugin().getArenaWaitingCountdown().getCurrentTime(arena));
+                if(arena.getGameState() == GameState.STARTING)
+                    return String.valueOf(Main.getPlugin().getArenaWaitingCountdown().getCurrentTime(arena));
+                else
+                    return "§cNot available";
             }else
                 return "§cNot available";
         }else if(params.equalsIgnoreCase("game_ending_seconds")){
             if(Main.getPlugin().getArenaManager().playerIsAlreadyInArena(player)) {
                 Arena arena = Main.getPlugin().getArenaManager().getPlayerCurrentArena(player);
-                return String.valueOf(Main.getPlugin().getArenaEndCountdown().getCurrentTime(arena));
+                if(arena.getGameState() == GameState.GAME_END)
+                    return String.valueOf(Main.getPlugin().getArenaEndCountdown().getCurrentTime(arena));
+                else
+                    return "§cNot available";
             }else
                 return "§cNot available";
         }

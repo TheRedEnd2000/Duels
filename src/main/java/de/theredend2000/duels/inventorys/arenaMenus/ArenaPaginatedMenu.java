@@ -32,7 +32,7 @@ public abstract class ArenaPaginatedMenu extends ArenaMenu {
 
         inventory.setItem(19, new ItemBuilder(Material.GRAY_STAINED_GLASS_PANE).setDisplayname("§c").setLocalizedName(arena).build());
         inventory.setItem(20, super.FILLER_GLASS);
-        inventory.setItem(24, super.FILLER_GLASS);
+        inventory.setItem(24, new ItemBuilder(Material.OAK_SIGN).setDisplayname("§6§lSearch").setLore("§7Current Search: "+(search != null ? "§6§n"+search : "§cnone"),"","§eLeft-Click to search.","§4Right-Click to reset search.").build());
         inventory.setItem(25, super.FILLER_GLASS);
     }
 
@@ -41,7 +41,8 @@ public abstract class ArenaPaginatedMenu extends ArenaMenu {
     }
 
     public int getMaxPages(){
-        ArrayList<String> keys = new ArrayList<>(Main.getPlugin().getArenaManagerHashMap().keySet());
+        ArrayList<String> keys = getKeysArray();
+        if(keys.isEmpty()) return 1;
         return (int) Math.ceil((double) keys.size() / getMaxItemsPerPage());
     }
 

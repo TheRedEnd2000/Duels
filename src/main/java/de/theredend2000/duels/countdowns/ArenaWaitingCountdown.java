@@ -41,9 +41,9 @@ public class ArenaWaitingCountdown {
                             if (player == null) return;
                             if(Main.getPlugin().getConfig().getBoolean("game.waiting-time.title")){
                                 if (currentTime == 0)
-                                    player.sendTitle(messageManager.getMessage(MessageKey.BATTLE_STARTED_TITLE).replaceAll("%seconds%", String.valueOf(currentTime)), messageManager.getMessage(MessageKey.BATTLE_STARTED_SUBTITLE).replaceAll("%seconds%", String.valueOf(currentTime)));
+                                    player.sendTitle(messageManager.getMessage(MessageKey.BATTLE_STARTED_TITLE).replaceAll("%seconds%", String.valueOf(currentTime)), messageManager.getMessage(MessageKey.BATTLE_STARTED_SUBTITLE).replaceAll("%seconds%", String.valueOf(currentTime)),20,40,20);
                                 else
-                                    player.sendTitle(messageManager.getMessage(MessageKey.BATTLE_START_TITLE).replaceAll("%seconds%", String.valueOf(currentTime)), messageManager.getMessage(MessageKey.BATTLE_START_SUBTITLE).replaceAll("%seconds%", String.valueOf(currentTime)));
+                                    player.sendTitle(messageManager.getMessage(MessageKey.BATTLE_START_TITLE).replaceAll("%seconds%", String.valueOf(currentTime)), messageManager.getMessage(MessageKey.BATTLE_START_SUBTITLE).replaceAll("%seconds%", String.valueOf(currentTime)),20,40,20);
                             }
                             if(Main.getPlugin().getConfig().getBoolean("game.waiting-time.message")){
                                 if (currentTime == 0)

@@ -47,6 +47,7 @@ game:
 
 
 items:
+  # COLOR-CODES ENABLED
   # Edit the play again item at the end of the battle
   # NOTE: you can disable it by settings the item to air
   play-again-item:
@@ -221,6 +222,7 @@ stats:
 
 
 messages:
+  # COLOR-CODES ENABLED
   # If a player dies in the duel to a specific case, the right message will be sent in the chat.
   # NOTE: %death% -> player who died; %killer% player who killed the other (CAN ONLY BE USED IN ENTITY_ATTACK)
   deaths:
@@ -246,6 +248,7 @@ messages:
   # default: true
   player-chat-message:
     enabled: true # If 'true' players can chat
+    # COLOR-CODES ENABLED
     # Replacements: '%player% -> player name; %message% -> message
     layout: "&6%player% &7>> &f%message%"
 
@@ -254,3 +257,23 @@ messages:
   # default: true
   send-kit-loading-message: true
   send-arena-loading-message: true
+
+
+
+placeholders:
+  # COLOR-CODES ENABLED
+
+  # Displayed when player is not in an arena
+  not-in-arena: "none"
+
+  # Displayed when no kit is found
+  no-kit-found: "none"
+
+  # Displayed when no user is found
+  no-user-found: "User not found"
+
+  # Displayed when the opponent is not available
+  opponent-error: "No opponent"
+
+  # Displayed when the time for the waiting or ending countdown is not found
+  time-error: "none"
