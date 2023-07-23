@@ -5,6 +5,8 @@ import de.theredend2000.duels.arenas.Arena;
 import de.theredend2000.duels.inventorys.PlayerMenuUtility;
 import de.theredend2000.duels.kits.Kit;
 import de.theredend2000.duels.util.ItemBuilder;
+import de.theredend2000.duels.util.MessageKey;
+import de.theredend2000.duels.util.MessageManager;
 import net.wesjd.anvilgui.AnvilGUI;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -20,9 +22,11 @@ import java.util.Collections;
 import java.util.List;
 
 public class KitListMenu extends KitPaginatedMenu {
+    private MessageManager messageManager;
 
     public KitListMenu(PlayerMenuUtility playerMenuUtility) {
         super(playerMenuUtility);
+        this.messageManager = Main.getPlugin().getMessageManager();
     }
 
     @Override
@@ -43,7 +47,7 @@ public class KitListMenu extends KitPaginatedMenu {
         String arena = e.getInventory().getItem(23).getItemMeta().getLocalizedName();
         Player dueler = Bukkit.getPlayer(opponent);
         if(dueler == null){
-            p.sendMessage(Main.PREFIX+"§cThe player "+opponent+" is not longer available.");
+            p.sendMessage(messageManager.getMessage(MessageKey.OPPONENT_NO_LONGER_AVAILABLE));
             p.closeInventory();
             return;
         }
@@ -59,7 +63,7 @@ public class KitListMenu extends KitPaginatedMenu {
         if(e.getCurrentItem().getType().equals(Material.PLAYER_HEAD)){
             if (ChatColor.stripColor(e.getCurrentItem().getItemMeta().getDisplayName()).equalsIgnoreCase("Left")){
                 if (page == 0){
-                    p.sendMessage(Main.PREFIX+"§7You are already on the first page.");
+                    p.sendMessage(messageManager.getMessage(MessageKey.ALREADY_ON_FIRST_PAGE));
                 }else{
                     page = page - 1;
                     super.open(opponent,arena,kitName, search);
@@ -69,7 +73,7 @@ public class KitListMenu extends KitPaginatedMenu {
                     page = page + 1;
                     super.open(opponent,arena,kitName, search);
                 }else{
-                    p.sendMessage(Main.PREFIX+"§7You are already on the last page.");
+                    p.sendMessage(messageManager.getMessage(MessageKey.ALREADY_ON_LAST_PAGE));
                 }
             }else if (ChatColor.stripColor(e.getCurrentItem().getItemMeta().getDisplayName()).equalsIgnoreCase("Back")){
                 Main.getPlugin().getInventoryManager().getPlayerDuelMenuMain(p,dueler,Main.getPlugin().getArenaManagerHashMap().get(arena), Main.getPlugin().getKitManagerHashMap().get(kitName));
@@ -83,7 +87,7 @@ public class KitListMenu extends KitPaginatedMenu {
                                 page = 0;
                                 super.open(opponent, arena, kitName, stateSnapshot.getText());
                             } else {
-                                player.sendMessage(Main.PREFIX + "§cFailed to read text.");
+                                player.sendMessage(messageManager.getMessage(MessageKey.FAILED_TO_READ_TEXT));
                             }
                         })
                         .onClick((slot, stateSnapshot) -> {

@@ -6,6 +6,8 @@ import de.theredend2000.duels.game.GameState;
 import de.theredend2000.duels.inventorys.PlayerMenuUtility;
 import de.theredend2000.duels.kits.Kit;
 import de.theredend2000.duels.util.ItemBuilder;
+import de.theredend2000.duels.util.MessageKey;
+import de.theredend2000.duels.util.MessageManager;
 import net.wesjd.anvilgui.AnvilGUI;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -16,13 +18,14 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemFlag;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 
 public class ArenaListMenu extends ArenaPaginatedMenu {
+    private MessageManager messageManager;
 
     public ArenaListMenu(PlayerMenuUtility playerMenuUtility) {
         super(playerMenuUtility);
+        this.messageManager = Main.getPlugin().getMessageManager();
     }
 
     @Override
@@ -43,7 +46,7 @@ public class ArenaListMenu extends ArenaPaginatedMenu {
         String arena = e.getInventory().getItem(19).getItemMeta().getLocalizedName();
         Player dueler = Bukkit.getPlayer(opponent);
         if(dueler == null){
-            p.sendMessage(Main.PREFIX+"§cThe player "+opponent+" is not longer available.");
+            p.sendMessage(messageManager.getMessage(MessageKey.OPPONENT_NO_LONGER_AVAILABLE));
             p.closeInventory();
             return;
         }
@@ -59,7 +62,7 @@ public class ArenaListMenu extends ArenaPaginatedMenu {
         if(e.getCurrentItem().getType().equals(Material.PLAYER_HEAD)){
             if (ChatColor.stripColor(e.getCurrentItem().getItemMeta().getDisplayName()).equalsIgnoreCase("Left")){
                 if (page == 0){
-                    p.sendMessage(Main.PREFIX+"§7You are already on the first page.");
+                    p.sendMessage(messageManager.getMessage(MessageKey.ALREADY_ON_FIRST_PAGE));
                 }else{
                     page = page - 1;
                     super.open(opponent,arena,kitName,search);
@@ -69,7 +72,7 @@ public class ArenaListMenu extends ArenaPaginatedMenu {
                     page = page + 1;
                     super.open(opponent,arena,kitName, search);
                 }else{
-                    p.sendMessage(Main.PREFIX+"§7You are already on the last page.");
+                    p.sendMessage(messageManager.getMessage(MessageKey.ALREADY_ON_LAST_PAGE));
                 }
             }else if (ChatColor.stripColor(e.getCurrentItem().getItemMeta().getDisplayName()).equalsIgnoreCase("Back")){
                 Main.getPlugin().getInventoryManager().getPlayerDuelMenuMain(p,dueler,Main.getPlugin().getArenaManagerHashMap().get(arena), Main.getPlugin().getKitManagerHashMap().get(kitName));
@@ -83,7 +86,7 @@ public class ArenaListMenu extends ArenaPaginatedMenu {
                                 page = 0;
                                 super.open(opponent, arena, kitName, stateSnapshot.getText());
                             } else {
-                                player.sendMessage(Main.PREFIX + "§cFailed to read text.");
+                                player.sendMessage(messageManager.getMessage(MessageKey.FAILED_TO_READ_TEXT));
                             }
                         })
                         .onClick((slot, stateSnapshot) -> {

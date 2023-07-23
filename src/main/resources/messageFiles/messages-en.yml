@@ -1,6 +1,7 @@
 # General
 only-players-error: "&cOnly players can use this command."
 duel-command-permission-error: "&cYou do not have the right permission to use this command."
+error: "§cThere was an error."
 
 
 # COMMANDS
@@ -53,6 +54,13 @@ add-stats-to-player: "&7You have &2successfully &aadded &e%score% %option%&7 to 
 remove-stats-from-player: "&7You have &2successfully &cremoved &e%score% %option%&7 from &6%player%&7."
 set-stats-of-player: "&7You have &2successfully &9set &6%player%'s &e%option% &7to &e%score%&7."
 reset-stats-of-player: "&7You have &2successfully &4reset &6%player%'s &e%option%&7."
+
+# Menus
+opponent-no-longer-available: "§cThe player %opponent% is not longer available."
+already-on-first-page: "§7You are already on the first page."
+already-on-last-page: "§7You are already on the last page."
+failed-to-read-text: "§cFailed to read text."
+
 
 # COUNTDOWNS
 

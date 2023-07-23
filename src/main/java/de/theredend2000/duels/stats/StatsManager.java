@@ -3,6 +3,7 @@ package de.theredend2000.duels.stats;
 import com.google.common.base.Charsets;
 import de.theredend2000.duels.Main;
 import de.theredend2000.duels.util.MessageKey;
+import de.theredend2000.duels.util.MessageManager;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
@@ -20,10 +21,12 @@ public class StatsManager {
 
     private FileConfiguration statsYaml;
     private File statsFile;
+    private MessageManager messageManager;
 
     public StatsManager() {
         statsFile = new File(Main.getPlugin().getDataFolder(), "stats.yml");
         statsYaml = YamlConfiguration.loadConfiguration(statsFile);
+        messageManager = Main.getPlugin().getMessageManager();
     }
 
     public void saveStatsYaml() {
@@ -251,25 +254,25 @@ public class StatsManager {
     public void finishChanges(String symbole,UUID uuid,String option,Player player,int score){
         int currentScore = getOptionScore(option,uuid);
         if(currentScore == -1){
-            player.sendMessage(Main.PREFIX+"§cThere was an error.");
+            player.sendMessage(messageManager.getMessage(MessageKey.ERROR));
         }
         String playerName = getPlayerName(uuid);
         switch (symbole.toLowerCase()){
             case "add":
                 statsYaml.set("Stats."+uuid+"."+getOption(option), currentScore+score);
-                player.sendMessage(Main.getPlugin().getMessageManager().getMessage(MessageKey.ADD_STATS_TO_PLAYER).replaceAll("%score%", String.valueOf(score)).replaceAll("%option%",getOption(option)).replaceAll("%player%",playerName));
+                player.sendMessage(messageManager.getMessage(MessageKey.ADD_STATS_TO_PLAYER).replaceAll("%score%", String.valueOf(score)).replaceAll("%option%",getOption(option)).replaceAll("%player%",playerName));
                 break;
             case "remove":
                 statsYaml.set("Stats."+uuid+"."+getOption(option), currentScore-score);
-                player.sendMessage(Main.getPlugin().getMessageManager().getMessage(MessageKey.REMOVE_STATS_FROM_PLAYER).replaceAll("%score%", String.valueOf(score)).replaceAll("%option%",getOption(option)).replaceAll("%player%",playerName));
+                player.sendMessage(messageManager.getMessage(MessageKey.REMOVE_STATS_FROM_PLAYER).replaceAll("%score%", String.valueOf(score)).replaceAll("%option%",getOption(option)).replaceAll("%player%",playerName));
                 break;
             case "set":
                 statsYaml.set("Stats."+uuid+"."+getOption(option), score);
-                player.sendMessage(Main.getPlugin().getMessageManager().getMessage(MessageKey.SET_STATS_OF_PLAYER).replaceAll("%score%", String.valueOf(score)).replaceAll("%option%",getOption(option)).replaceAll("%player%",playerName));
+                player.sendMessage(messageManager.getMessage(MessageKey.SET_STATS_OF_PLAYER).replaceAll("%score%", String.valueOf(score)).replaceAll("%option%",getOption(option)).replaceAll("%player%",playerName));
                 break;
             case "reset":
                 statsYaml.set("Stats."+uuid+"."+getOption(option), score);
-                player.sendMessage(Main.getPlugin().getMessageManager().getMessage(MessageKey.RESET_STATS_OF_PLAYER).replaceAll("%option%",getOption(option)).replaceAll("%player%",playerName));
+                player.sendMessage(messageManager.getMessage(MessageKey.RESET_STATS_OF_PLAYER).replaceAll("%option%",getOption(option)).replaceAll("%player%",playerName));
                 break;
         }
         saveStatsYaml();

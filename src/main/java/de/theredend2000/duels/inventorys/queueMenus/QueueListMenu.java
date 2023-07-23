@@ -4,24 +4,25 @@ import de.theredend2000.duels.Main;
 import de.theredend2000.duels.arenas.Arena;
 import de.theredend2000.duels.game.GameState;
 import de.theredend2000.duels.inventorys.PlayerMenuUtility;
-import de.theredend2000.duels.kits.Kit;
-import de.theredend2000.duels.queue.Queue;
 import de.theredend2000.duels.util.ItemBuilder;
+import de.theredend2000.duels.util.MessageKey;
+import de.theredend2000.duels.util.MessageManager;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemFlag;
 
 import java.util.ArrayList;
 import java.util.Collections;
 
 public class QueueListMenu extends QueuePaginatedMenu {
+    private MessageManager messageManager;
 
     public QueueListMenu(PlayerMenuUtility playerMenuUtility) {
         super(playerMenuUtility);
+        this.messageManager = Main.getPlugin().getMessageManager();
     }
 
     @Override
@@ -62,7 +63,7 @@ public class QueueListMenu extends QueuePaginatedMenu {
         if(e.getCurrentItem().getType().equals(Material.PLAYER_HEAD)){
             if (ChatColor.stripColor(e.getCurrentItem().getItemMeta().getDisplayName()).equalsIgnoreCase("Left")){
                 if (page == 0){
-                    p.sendMessage(Main.PREFIX+"§7You are already on the first page.");
+                    p.sendMessage(messageManager.getMessage(MessageKey.ALREADY_ON_FIRST_PAGE));
                 }else{
                     page = page - 1;
                     super.open();
@@ -72,7 +73,7 @@ public class QueueListMenu extends QueuePaginatedMenu {
                     page = page + 1;
                     super.open();
                 }else{
-                    p.sendMessage(Main.PREFIX+"§7You are already on the last page.");
+                    p.sendMessage(messageManager.getMessage(MessageKey.ALREADY_ON_LAST_PAGE));
                 }
             }
         }else if (e.getCurrentItem().getType().equals(Material.BARRIER)){
