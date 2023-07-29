@@ -5,6 +5,7 @@ import de.theredend2000.duels.arenas.ArenaManager;
 import de.theredend2000.duels.arenas.PlayAgain;
 import de.theredend2000.duels.commands.DuelCommand;
 import de.theredend2000.duels.commands.DuelsCommand;
+import de.theredend2000.duels.countdowns.ArenaDurationCountdown;
 import de.theredend2000.duels.countdowns.ArenaEndCountdown;
 import de.theredend2000.duels.countdowns.ArenaWaitingCountdown;
 import de.theredend2000.duels.extramanagers.ScoreboardManagers;
@@ -57,6 +58,7 @@ public final class Main extends JavaPlugin {
     private GameManager gameManager;
     private InventoryManager inventoryManager;
     private ArenaWaitingCountdown arenaWaitingCountdown;
+    private ArenaDurationCountdown arenaDurationCountdown;
     private SpecialsManager specialsManager;
     private ArenaEndCountdown arenaEndCountdown;
     private PlayerSavesManager playerSavesManager;
@@ -100,6 +102,7 @@ public final class Main extends JavaPlugin {
         gameManager = new GameManager();
         inventoryManager = new InventoryManager();
         kitManager = new KitManager();
+
         itemManager = new ItemManager();
         statsManager = new StatsManager();
         queueManager = new QueueManager();
@@ -148,6 +151,7 @@ public final class Main extends JavaPlugin {
         kitManagerHashMap = new HashMap<>();
         arenaManagerHashMap = new HashMap<>();
         arenaWaitingCountdown = new ArenaWaitingCountdown();
+        arenaDurationCountdown = new ArenaDurationCountdown();
         arenaEndCountdown = new ArenaEndCountdown();
         playAgainHashMap = new HashMap<>();
         queueManagerHashMap = new HashMap<>();
@@ -295,5 +299,9 @@ public final class Main extends JavaPlugin {
 
     public MessageManager getMessageManager() {
         return messageManager;
+    }
+
+    public ArenaDurationCountdown getArenaDurationCountdown() {
+        return arenaDurationCountdown;
     }
 }

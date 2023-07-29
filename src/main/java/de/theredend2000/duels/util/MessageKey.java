@@ -5,6 +5,7 @@ public enum MessageKey {
     BANNED_WORLD_ERROR("banned-world-error"),
     ERROR("error"),
     ALREADY_IN_DUEL_ERROR("already-in-duel-error"),
+    OPPONENT_ALREADY_IN_DUEL_ERROR("opponent-already-in-duel-error"),
     NO_ARENAS_AVAILABLE_WITH_PERMISSION("no-arenas-available"),
     NO_ARENAS_AVAILABLE("no-arenas-available"),
     NO_KITS_AVAILABLE("no-kits-available"),

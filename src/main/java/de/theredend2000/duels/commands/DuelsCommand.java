@@ -37,7 +37,7 @@ public class DuelsCommand implements CommandExecutor, TabCompleter {
             }
             if(args.length == 0){
                 HelpManager.sendPlayerDefaultHelp(player);
-                return true;
+                return false;
             }
             if(args[0].equalsIgnoreCase("arena")){
                 if(args[1].equalsIgnoreCase("create") && args.length == 3){
@@ -85,7 +85,8 @@ public class DuelsCommand implements CommandExecutor, TabCompleter {
                     }
                     player.sendMessage("§d=============§6§lArenas§d=============");
                 }else if(args[1].equalsIgnoreCase("help") && args.length == 2){
-                    HelpManager.sendPlayerArenaHelp(player);
+                    //HelpManager.sendPlayerArenaHelp(player);
+                    HelpManager.openHelpBookPlayer(player);
                 }else if(args[1].equalsIgnoreCase("setIcon") && args.length == 3){
                     try {
                         String name = args[2];

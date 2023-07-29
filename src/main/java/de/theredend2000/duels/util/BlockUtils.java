@@ -2,12 +2,14 @@ package de.theredend2000.duels.util;
 
 import de.theredend2000.duels.Main;
 import de.theredend2000.duels.arenas.Arena;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockState;
 import org.bukkit.block.data.BlockData;
 import org.bukkit.material.Directional;
 import org.bukkit.material.MaterialData;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -51,30 +53,36 @@ public class BlockUtils {
     }
 
     public static void restoreBlocks(Arena arena) {
-        if (!blockList.containsKey(arena)) {
-            return;
-        }
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                if (!blockList.containsKey(arena)) {
+                    return;
+                }
 
-        HashMap<Location, BlockState> arenaBlocks = blockList.get(arena);
-        List<Location> blocksToRemove = new ArrayList<>();
+                HashMap<Location, BlockState> arenaBlocks = blockList.get(arena);
+                List<Location> blocksToRemove = new ArrayList<>();
 
-        for (Map.Entry<Location, BlockState> entry : arenaBlocks.entrySet()) {
-            Location location = entry.getKey();
-            BlockState blockState = entry.getValue();
-            Block block = location.getBlock();
+                for (Map.Entry<Location, BlockState> entry : arenaBlocks.entrySet()) {
+                    Location location = entry.getKey();
+                    BlockState blockState = entry.getValue();
+                    Block block = location.getBlock();
 
-            blockState.update(true, false);
-            block.setBlockData(blockState.getBlockData(), false);
+                    blockState.update(true, false);
+                    block.setBlockData(blockState.getBlockData(), false);
 
-            blocksToRemove.add(location);
-        }
+                    blocksToRemove.add(location);
+                }
 
-        for (Location location : blocksToRemove) {
-            arenaBlocks.remove(location);
-        }
+                for (Location location : blocksToRemove) {
+                    arenaBlocks.remove(location);
+                }
 
-        blockList.remove(arena);
-        arenas.remove(arena);
+                blockList.remove(arena);
+                arenas.remove(arena);
+                Bukkit.broadcastMessage("regen");
+            }
+        }.runTaskLater(Main.getPlugin(),20L);
     }
 
     public static void restoreAllBlocks() {

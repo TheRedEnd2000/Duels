@@ -6,12 +6,8 @@ import de.theredend2000.duels.arenas.PlayAgain;
 import de.theredend2000.duels.kits.Kit;
 import de.theredend2000.duels.util.BlockUtils;
 import org.bukkit.*;
-import org.bukkit.block.Block;
-import org.bukkit.block.BlockState;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
-import org.bukkit.scheduler.BukkitRunnable;
-import org.bukkit.scoreboard.Scoreboard;
 
 import java.util.*;
 
@@ -80,6 +76,31 @@ public class GameManager {
             player.sendMessage("§7Rating >> §d§l"+Main.getPlugin().getStatsManager().getRating(player.getUniqueId())+" §7("+(player.equals(winner) ? "§a+" : "§c-")+"§d"+(int) Math.ceil(winner.getHealth())+"§7)");
             player.sendMessage("§d============§f[§9Duel§f]§d============");
             player.sendTitle((player.equals(winner) ? "§6§lVictory" : "§c§lDefeat"), "§3" + winner.getDisplayName() + " won the duel.");
+            regeneratePlayer(player);
+            Main.getPlugin().getItemManager().setPlayAgainItem(player);
+            Main.getPlugin().getItemManager().setLeaveItem(player);
+            for (PotionEffect effect : player.getActivePotionEffects())
+                player.removePotionEffect(effect.getType());
+        }
+        BlockUtils.restoreBlocks(arena);
+        Main.getPlugin().getArenaManager().removeEntitiesInArena(arena);
+        Main.getPlugin().getPlayAgainHashMap().put(arena,new PlayAgain(arena,kit,null,null));
+    }
+
+    public void timerExpiredGameEnd(ArrayList<Player> players, Arena arena, Kit kit){
+        Main.getPlugin().getArenaEndCountdown().addEndingCountdownForArena(arena);
+        for(Player player : players) {
+            player.setGameMode(GameMode.valueOf(Main.getPlugin().getConfig().getString("game.gamemode")));
+            player.getInventory().clear();
+            player.teleport(arena.getEndSpawn());
+            player.setAllowFlight(true);
+            player.setFlying(true);
+            player.sendMessage("§d============§f[§9Duel§f]§d============");
+            player.sendMessage("§7Winner >> §4§lTimer expired");
+            player.sendMessage("§7Arena >> §3§l" + arena.getName());
+            player.sendMessage("§7Kit >> §5§l"+kit.getName());
+            player.sendMessage("§d============§f[§9Duel§f]§d============");
+            player.sendTitle("§4§lBattle ended!","§cThe timer has expired.");
             regeneratePlayer(player);
             Main.getPlugin().getItemManager().setPlayAgainItem(player);
             Main.getPlugin().getItemManager().setLeaveItem(player);

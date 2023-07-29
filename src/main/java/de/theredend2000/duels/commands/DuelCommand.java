@@ -86,7 +86,7 @@ public class DuelCommand implements CommandExecutor, TabCompleter {
                     return false;
                 }
                 if (Main.getPlugin().getArenaManager().playerIsAlreadyInArena(opponent)) {
-                    player.sendMessage(messageManager.getMessage(MessageKey.ALREADY_IN_DUEL_ERROR));
+                    player.sendMessage(messageManager.getMessage(MessageKey.OPPONENT_ALREADY_IN_DUEL_ERROR).replaceAll("%opponent%",opponent.getDisplayName()));
                     return false;
                 }
 

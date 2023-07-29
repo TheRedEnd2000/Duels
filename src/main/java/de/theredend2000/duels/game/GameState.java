@@ -5,5 +5,6 @@ public enum GameState {
     STARTING,
     RUNNING,
     GAME_END,
-    DISABLED
+    DISABLED,
+    REPLAY
 }

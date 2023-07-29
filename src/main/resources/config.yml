@@ -25,6 +25,11 @@ game:
     seconds: 10
 
 
+  # How long to battle can go before ending. Time in seconds!
+  # NOTE: If time is '-1' is will not end until one player dies.
+  game-duration: -1
+
+
 
   # Set the gamemode after the games end starts and joins
   # default: SURVIVAL
@@ -227,14 +232,14 @@ messages:
   # NOTE: %death% -> player who died; %killer% player who killed the other (CAN ONLY BE USED IN ENTITY_ATTACK)
   deaths:
     fall: "&4%death% &7fell from a height place."
-    fire: "&4%death% &7burned alive."
+    fire: "&4%death% &7burned in to much fire."
     lava: "&4%death% &7tried to swim in lava. :|"
     void: "&4%death% &7fell out of the real world."
     magic: "&4%death% &7was hit by crazy magic."
     poison: "&4%death% &7died from too much poison."
     wither: "&4%death% &7liked the wither too much."
     drowning: "&4%death% &7loves water, but is not a fish."
-    fire_tick: "&4%death% &7burned in to much fire."
+    fire_tick: "&4%death% &7burned alive."
     lightning: "&4%death% &7was killed by a crazy lightning bolt."
     projectile: "&4%death% &7was shot by an arrow that was to powerful for him."
     suffocation: "&4%death% &7suffocated in a hard wall."

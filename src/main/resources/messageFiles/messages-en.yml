@@ -6,6 +6,7 @@ error: "§cThere was an error."
 # COMMANDS
 banned-world-error: "&cYou can't duel in this world."
 already-in-duel-error: "&cYou are already in a duel."
+opponent-already-in-duel-error: "&e%opponent% &cis already in a duel."
 no-arenas-available-with-permission: "&cThere are no Arenas available. You can create one with &e/duels arena create <name>&c and edit it with &e/duels arena edit <name>&c."
 no-arenas-available: "&cThere are no Arenas available."
 no-kits-available: "&cThere are no Kits available."

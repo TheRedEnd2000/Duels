@@ -1,9 +1,11 @@
 package de.theredend2000.duels.util;
 
 import de.theredend2000.duels.Main;
-import net.md_5.bungee.api.chat.HoverEvent;
-import net.md_5.bungee.api.chat.TextComponent;
+import net.md_5.bungee.api.chat.*;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import xyz.upperlevel.spigot.book.BookUtil;
 
 public class HelpManager {
 
@@ -24,6 +26,7 @@ public class HelpManager {
         player.sendMessage("§a> §6§l/duels arena edit <name> \n  §bOpens the arena edit menu for this arena.");
         player.sendMessage("§a> §6§l/duels arena list \n  §bLists all existing arenas.");
         player.sendMessage("§a> §6§l/duels arena setIcon <name> \n  §bSets the holding item as icon for the arena.");
+        player.sendMessage("§a> §6§l/duels arena help \n  §bOpens the help book.");
     }
 
     public static void sendPlayerKitHelp(Player player){
@@ -58,6 +61,53 @@ public class HelpManager {
         message.addExtra("§4§lSTATS CHANGING IS NOT RECOMMENDED");
 
         player.spigot().sendMessage(message);
+    }
+
+    public static void openHelpBookPlayer(Player player){
+        BookUtil.openPlayer(player,createHelpBookPlayer(player));
+    }
+
+    public static ItemStack createHelpBookPlayer(Player player){
+        return BookUtil.writtenBook()
+                .author("SnowyCoder")
+                .title("The Test-ament")
+                .pages(
+                        new BaseComponent[]{
+                                new TextComponent("\n\n\n\n\n          §9§lDUELS\n\n §3by XMC-Plugins v"+Main.getPlugin().getDescription().getVersion())
+                        },
+                        new BookUtil.PageBuilder()
+                                .add(new TextComponent("§6§l§nOverview")).newLine().newLine().newLine()
+                                .add(BookUtil.TextBuilder.of("1. Arena Help §7(3-5)")
+                                                .color(ChatColor.DARK_BLUE)
+                                                .style( ChatColor.UNDERLINE)
+                                                .onClick(BookUtil.ClickAction.changePage(3))
+                                                .onHover(BookUtil.HoverAction.showText("Get to arena help"))
+                                                .build()).newLine().newLine()
+                                .add(BookUtil.TextBuilder.of("2. Kit Help §7(6-9)")
+                                        .color(ChatColor.DARK_BLUE)
+                                        .style( ChatColor.UNDERLINE)
+                                        .onClick(BookUtil.ClickAction.changePage(6))
+                                        .onHover(BookUtil.HoverAction.showText("Get to kit help"))
+                                        .build())
+                                .build(),
+                        new BookUtil.PageBuilder()
+                                .add("§6§l§nArena Help")
+                                .newLine().newLine()
+                                .add("§2> §3§l/duels arena create <name>\n§0Creates a new arena.").newLine().newLine()
+                                .add("§2> §3§l/duels arena delete <name>\n§0Deletes an existing arena.").newLine().newLine().newLine().newLine()
+                                .add("           §7(1/3)")
+                                .build(),
+                        new BookUtil.PageBuilder()
+                                .add("§2> §3§l/duels arena edit <name>\n§0Opens the arena edit menu for this arena.").newLine().newLine()
+                                .add("§2> §3§l/duels arena list\n§0Lists all existing arenas.").newLine().newLine().newLine().newLine().newLine().newLine()
+                                .add("           §7(2/3)")
+                                .build(),
+                        new BookUtil.PageBuilder()
+                                .add("§2> §3§l/duels arena setIcon <name>\n§0Sets the holding item as icon for the arena.").newLine().newLine()
+                                .add("§2> §3§l/duels arena help\n§0Opens this help book.").newLine().newLine().newLine().newLine().newLine().newLine()
+                                .add("           §7(3/3)")
+                                .build()
+                ).build();
     }
 
     private static TextComponent getOptionText(){
