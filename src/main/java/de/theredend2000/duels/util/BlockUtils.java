@@ -80,7 +80,6 @@ public class BlockUtils {
 
                 blockList.remove(arena);
                 arenas.remove(arena);
-                Bukkit.broadcastMessage("regen");
             }
         }.runTaskLater(Main.getPlugin(),20L);
     }
