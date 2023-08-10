@@ -40,7 +40,9 @@ public class DuelsCommand implements CommandExecutor, TabCompleter {
                 return false;
             }
             if(args[0].equalsIgnoreCase("arena")){
-                if(args[1].equalsIgnoreCase("create") && args.length == 3){
+                if(args.length == 1){
+                    HelpManager.sendPlayerArenaHelp(player);
+                }else if(args[1].equalsIgnoreCase("create") && args.length == 3){
                     try {
                         String name = args[2];
                         if(isValidInput(name)) {
@@ -79,14 +81,17 @@ public class DuelsCommand implements CommandExecutor, TabCompleter {
                         e.printStackTrace();
                     }
                 }else if(args[1].equalsIgnoreCase("list") && args.length == 2){
-                    player.sendMessage("§d=============§6§lArenas§d=============");
-                    for(Arena arena : Main.getPlugin().getArenaManagerHashMap().values()){
-                        player.sendMessage("§b- §7Arena: §6§l"+arena.getName());
-                    }
-                    player.sendMessage("§d=============§6§lArenas§d=============");
+                    if(!Main.getPlugin().getArenaManagerHashMap().values().isEmpty()){
+                        player.sendMessage("§d=============§6§lArenas§d=============");
+                        for(Arena arena : Main.getPlugin().getArenaManagerHashMap().values()){
+                            player.sendMessage("§b- §7Arena: §6§l"+arena.getName());
+                        }
+                        player.sendMessage("§d=============§6§lArenas§d=============");
+                    }else
+                        player.sendMessage(messageManager.getMessage(MessageKey.NO_ARENAS_FOUND));
                 }else if(args[1].equalsIgnoreCase("help") && args.length == 2){
-                    //HelpManager.sendPlayerArenaHelp(player);
-                    HelpManager.openHelpBookPlayer(player);
+                    HelpManager.sendPlayerArenaHelp(player);
+                    //HelpManager.openHelpBookPlayer(player);
                 }else if(args[1].equalsIgnoreCase("setIcon") && args.length == 3){
                     try {
                         String name = args[2];
@@ -106,7 +111,9 @@ public class DuelsCommand implements CommandExecutor, TabCompleter {
                 }else
                     HelpManager.sendPlayerArenaHelp(player);
             }else if(args[0].equalsIgnoreCase("kit")){
-                if(args[1].equalsIgnoreCase("save") && args.length == 3){
+                if(args.length == 1){
+                    HelpManager.sendPlayerKitHelp(player);
+                }else if(args[1].equalsIgnoreCase("save") && args.length == 3){
                     try {
                         String name = args[2];
                         if(isValidInput(name)) {
@@ -132,11 +139,14 @@ public class DuelsCommand implements CommandExecutor, TabCompleter {
                         e.printStackTrace();
                     }
                 }else if(args[1].equalsIgnoreCase("list") && args.length == 2){
-                    player.sendMessage("§d=============§6§lKits§d=============");
-                    for(Kit kit : Main.getPlugin().getKitManagerHashMap().values()){
-                        player.sendMessage("§b- §7Kit: §6§l"+kit.getName());
-                    }
-                    player.sendMessage("§d=============§6§lKits§d=============");
+                    if(!Main.getPlugin().getKitManagerHashMap().values().isEmpty()){
+                        player.sendMessage("§d=============§6§lKits§d=============");
+                        for(Kit kit : Main.getPlugin().getKitManagerHashMap().values()){
+                            player.sendMessage("§b- §7Kit: §6§l"+kit.getName());
+                        }
+                        player.sendMessage("§d=============§6§lKits§d=============");
+                    }else
+                        player.sendMessage(messageManager.getMessage(MessageKey.NO_KITS_FOUND));
                 }else if(args[1].equalsIgnoreCase("help") && args.length == 2){
                     HelpManager.sendPlayerKitHelp(player);
                 }else if(args[1].equalsIgnoreCase("rename") && args.length == 4){

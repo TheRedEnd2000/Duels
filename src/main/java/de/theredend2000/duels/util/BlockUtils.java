@@ -17,15 +17,15 @@ import java.util.List;
 import java.util.Map;
 
 public class BlockUtils {
-    private static HashMap<Arena, HashMap<Location, BlockState>> blockList;
-    private static List<Arena> arenas;
+    private HashMap<Arena, HashMap<Location, BlockState>> blockList;
+    private List<Arena> arenas;
 
     public BlockUtils() {
         blockList = new HashMap<>();
         arenas = new ArrayList<>();
     }
 
-    public static void saveBlocksBetween(Arena arena, Location pos1, Location pos2) {
+    public void saveBlocksBetween(Arena arena, Location pos1, Location pos2) {
         HashMap<Location, BlockState> arenaBlocks = new HashMap<>();
 
         int minX = Math.min(pos1.getBlockX(), pos2.getBlockX());
@@ -42,7 +42,6 @@ public class BlockUtils {
                     Block block = location.getBlock();
                     BlockState blockState = block.getState();
 
-                    // Speichern des ursprünglichen Blockzustands
                     arenaBlocks.put(location, blockState);
                 }
             }
@@ -52,7 +51,7 @@ public class BlockUtils {
         arenas.add(arena);
     }
 
-    public static void restoreBlocks(Arena arena) {
+    public void restoreBlocks(Arena arena) {
         new BukkitRunnable() {
             @Override
             public void run() {
@@ -80,11 +79,12 @@ public class BlockUtils {
 
                 blockList.remove(arena);
                 arenas.remove(arena);
+                Main.getPlugin().getArenaManager().removeEntitiesInArena(arena);
             }
         }.runTaskLater(Main.getPlugin(),20L);
     }
 
-    public static void restoreAllBlocks() {
+    public void restoreAllBlocks() {
         for (Arena arena : arenas) {
             restoreBlocks(arena);
         }

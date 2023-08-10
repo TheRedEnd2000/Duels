@@ -11,6 +11,7 @@ import de.theredend2000.duels.countdowns.ArenaWaitingCountdown;
 import de.theredend2000.duels.extramanagers.ScoreboardManagers;
 import de.theredend2000.duels.extramanagers.SpecialsManager;
 import de.theredend2000.duels.game.GameManager;
+import de.theredend2000.duels.game.GameState;
 import de.theredend2000.duels.inventorys.InventoryManager;
 import de.theredend2000.duels.inventorys.PlayerMenuUtility;
 import de.theredend2000.duels.extramanagers.ItemManager;
@@ -34,12 +35,10 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import org.bukkit.Bukkit;
+import org.bukkit.potion.PotionEffect;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Objects;
+import java.util.*;
 
 public final class Main extends JavaPlugin {
 
@@ -68,13 +67,14 @@ public final class Main extends JavaPlugin {
     private StatsManager statsManager;
     private QueueManager queueManager;
     private MessageManager messageManager;
+    private BlockUtils blockUtils;
 
     @Override
     public void onEnable() {
         plugin = this;
         Bukkit.getServer().getScheduler().runTask(Main.getPlugin(), () -> {
             Bukkit.getConsoleSender().sendMessage("\n");
-            Bukkit.getConsoleSender().sendMessage("§6§lDUELS BY TheRedEnd2000 v" + getDescription().getVersion());
+            Bukkit.getConsoleSender().sendMessage("§6§lDUELS BY XMC-Plugins v" + getDescription().getVersion());
             Bukkit.getConsoleSender().sendMessage("\n");
             initConfiguration();
             initManagers();
@@ -90,8 +90,7 @@ public final class Main extends JavaPlugin {
 
     @Override
     public void onDisable() {
-        arenaManager.saveAllArenas();
-        gameManager.endAllDuelsWhenClosing();
+
     }
 
     private void initManagers(){
@@ -102,7 +101,6 @@ public final class Main extends JavaPlugin {
         gameManager = new GameManager();
         inventoryManager = new InventoryManager();
         kitManager = new KitManager();
-
         itemManager = new ItemManager();
         statsManager = new StatsManager();
         queueManager = new QueueManager();
@@ -143,7 +141,7 @@ public final class Main extends JavaPlugin {
     }
 
     private void initExtras(){
-        new BlockUtils();
+        blockUtils = new BlockUtils();
         arenaKit = new HashMap<>();
         bannedWorlds = new ArrayList<>();
         duelRequests = new HashMap<>();
@@ -303,5 +301,9 @@ public final class Main extends JavaPlugin {
 
     public ArenaDurationCountdown getArenaDurationCountdown() {
         return arenaDurationCountdown;
+    }
+
+    public BlockUtils getBlockUtils() {
+        return blockUtils;
     }
 }

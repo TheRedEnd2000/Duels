@@ -29,6 +29,7 @@ public enum MessageKey {
     ARENA_NOT_FOUND("arena-not-found"),
     ARENA_ICON_SET("arena-icon-set"),
     ARENA_ICON_FAIL("arena-icon-fail"),
+    NO_ARENAS_FOUND("no-arenas-found"),
     TYPE_NAME_CONTENT("type-name-content"),
     KIT_SAVED("kit-saved"),
     KIT_DELETED("kit-deleted"),
@@ -40,6 +41,7 @@ public enum MessageKey {
     KIT_EDIT("kit-edit"),
     KIT_ICON_SET("kit-icon-set"),
     KIT_ICON_FAIL("kit-icon-fail"),
+    NO_KITS_FOUND("no-kits-found"),
     RELOAD_FILE_SUCCESS("reload-file-success"),
     PLAYER_NOT_EXIST("player-not-exist"),
     OPTION_INVADABLE("option-invadable"),
@@ -62,7 +64,12 @@ public enum MessageKey {
     BATTLE_ENDED_MESSAGE("battle-ended-message"),
     ALREADY_ON_FIRST_PAGE("already-on-first-page"),
     ALREADY_ON_LAST_PAGE("already-on-last-page"),
-    FAILED_TO_READ_TEXT("failed-to-read-text");
+    FAILED_TO_READ_TEXT("failed-to-read-text"),
+    CANNOT_BUILD_OUT_OF_ARENA("cannot-build-out-of-arena"),
+    CANNOT_BREAK_BLOCKS_OUTSIDE_ARENA("cannot-break-blocks-outside-arena"),
+    CHAT_DISABLED("chat-disabled"),
+    PLAYER_LEAVE_GAME("player-leave-game"),
+    ARENA_EDIT_ACTION("arena-edit-action");
 
     private final String path;
 

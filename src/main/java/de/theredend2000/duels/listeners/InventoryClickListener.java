@@ -10,6 +10,7 @@ import de.theredend2000.duels.inventorys.kitMenus.KitListMenu;
 import de.theredend2000.duels.inventorys.kitMenus.KitMenu;
 import de.theredend2000.duels.inventorys.queueMenus.QueueMenu;
 import de.theredend2000.duels.kits.Kit;
+import de.theredend2000.duels.util.MessageKey;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
@@ -59,6 +60,10 @@ public class InventoryClickListener implements Listener {
                 if(event.getView().getTitle().equals("Arena Editor")){
                     event.setCancelled(true);
                     Arena arena = Main.getPlugin().getArenaManagerHashMap().get(event.getInventory().getItem(4).getItemMeta().getLocalizedName());
+                    if(!arena.getGameState().equals(GameState.WAITING)){
+                        player.sendMessage(Main.PREFIX+"§cYou can only edit the arena while in waiting state.");
+                        return;
+                    }
                     if(event.getCurrentItem().getItemMeta().hasLocalizedName()){
                         switch (event.getCurrentItem().getItemMeta().getLocalizedName()){
                             case "arena.edit.close":
@@ -66,7 +71,7 @@ public class InventoryClickListener implements Listener {
                                 break;
                             case "arena.edit.spawn1":
                                 arena.setSpawn1(player.getLocation());
-                                player.sendMessage(Main.PREFIX+"§7You have §asuccessfully §7set the §2Spawn 1 §7for the arena §e"+arena.getName()+"§7.");
+                                player.sendMessage(Main.getPlugin().getMessageManager().getMessage(MessageKey.ARENA_EDIT_ACTION).replaceAll("%action%","Spawn 1").replaceAll("%arena%",arena.getName()));
                                 Main.getPlugin().getArenaManager().updateArenas();
                                 player.closeInventory();
                                 break;

@@ -31,6 +31,7 @@ arena-not-found: "&cThere is no arena with this name."
 arena-icon-set: "&7The &2icon &7for the arena &e%arena_name% &7was set to &6%icon%&7."
 arena-icon-fail: "&cPlease hold the item you want as icon in your hand."
 type-name-content: "&c%type% names can only contain &e'Letters (a) | Numbers (1) | Underscores (_)  | Hyphen (-)'&c."
+no-arenas-found: "&cThere are no arenas."
 
 # Kit
 kit-saved: "&7Your current inventory was &asuccessfully &2saved &7as kit &e%kit_name%&7."
@@ -43,6 +44,7 @@ kit-load: "&7The Kit &e%kit_name% &7was &2loaded &asuccessfully&7."
 kit-edit: "&7The Kit &e%kit_name% &7was &2edited &asuccessfully&7."
 kit-icon-set: "&7The &2icon &7for the kit &e%kit_name% &7was set to &6%icon%&7."
 kit-icon-fail: "&cPlease hold the item you want as icon in your hand."
+no-kits-found: "&cThere are no kits."
 
 # Reload
 reload-file-success: "&7The &3%file%.yml file &7was &ereloaded &asuccessfully&7."
@@ -78,4 +80,18 @@ battle-end-title: "&c&l%seconds%"
 battle-end-subtitle: "&7Until the battle ends."
 battle-end-message: "&7Battle ends in &e%seconds% second(s)&7."
 battle-ended-message: "&cBattle ended."
+
+
+# Listeners
+cannot-build-out-of-arena: "&cYou cannot build out of the arena."
+cannot-break-blocks-outside-arena: "&cYou cannot break blocks outside the arena."
+chat-disabled: "&cThe Chat is disabled."
+
+
+# Game
+player-leave-game: "&e%player%&c left the game."
+
+
+# Arena Configuration
+arena-edit-action: "&7You have &asuccessfully &7set the &6%action% &7for the arena &e%arena%&7."
 

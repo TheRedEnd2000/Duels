@@ -2,6 +2,7 @@ package de.theredend2000.duels.extramanagers;
 
 import de.theredend2000.duels.Main;
 import de.theredend2000.duels.arenas.Arena;
+import de.theredend2000.duels.game.GameManager;
 import de.theredend2000.duels.game.GameState;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
@@ -29,8 +30,9 @@ public class ScoreboardManagers {
                         if (Main.getPlugin().getConfig().getBoolean("game.scoreboard")) {
                             ArrayList<UUID> players = new ArrayList<>(arena.getPlayerInGame());
                             players.remove(player.getUniqueId());
-                            Player getOpponent = Bukkit.getPlayer(players.get(0));
-                            if(getOpponent == null) continue;
+                            Player getOpponent = null;
+                            if(players.size() == 1)
+                                getOpponent = Bukkit.getPlayer(players.get(0));
                             Scoreboard board = Bukkit.getScoreboardManager().getNewScoreboard();
                             Objective objective = board.registerNewObjective("duel", "dummy");
                             objective.setDisplayName("§9Duels");
@@ -72,8 +74,6 @@ public class ScoreboardManagers {
                                     break;
                             }
                             player.setScoreboard(board);
-                            String arrowIndicator = showArrowIndicator(player, getOpponent);
-                            sendActionBar(player, arrowIndicator);
                         }
                     }
                 }
@@ -88,11 +88,6 @@ public class ScoreboardManagers {
     public String getDistance(Player player, Player target){
         double distance = player.getLocation().distance(target.getLocation());
         return String.format("%.1f", distance).replace(",", ".");
-    }
-
-
-    public void sendActionBar(Player player, String message) {
-        player.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(message));
     }
 
     public String showArrowIndicator(Player player, Player target) {

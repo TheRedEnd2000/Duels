@@ -8,6 +8,8 @@ import de.theredend2000.duels.util.BlockUtils;
 import org.bukkit.*;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
+import org.bukkit.scoreboard.Scoreboard;
+import org.bukkit.scoreboard.Team;
 
 import java.util.*;
 
@@ -21,8 +23,6 @@ public class GameManager {
         opponent.showPlayer(sender);
         sender.showPlayer(Main.getPlugin(),opponent);
         sender.showPlayer(opponent);
-        regeneratePlayer(sender);
-        regeneratePlayer(opponent);
         opponent.setExp(0);
         opponent.setLevel(0);
         sender.setLevel(0);
@@ -52,9 +52,11 @@ public class GameManager {
             opponent.sendMessage("§7Kit >> §4§l"+kit.getName());
             opponent.sendMessage("§d============§f[§9Duel§f]§d============");
         }
+        regeneratePlayer(sender);
+        regeneratePlayer(opponent);
         Main.getPlugin().getArenaKit().put(arena,kit);
         Main.getPlugin().getArenaWaitingCountdown().addStartingCountdownForArena(arena);
-        BlockUtils.saveBlocksBetween(arena,arena.getPos1(),arena.getPos2());
+        Main.getPlugin().getBlockUtils().saveBlocksBetween(arena,arena.getPos1(),arena.getPos2());
     }
 
     public void winDuel(Player looser, Player winner, Arena arena,Kit kit){
@@ -82,8 +84,7 @@ public class GameManager {
             for (PotionEffect effect : player.getActivePotionEffects())
                 player.removePotionEffect(effect.getType());
         }
-        BlockUtils.restoreBlocks(arena);
-        Main.getPlugin().getArenaManager().removeEntitiesInArena(arena);
+        Main.getPlugin().getBlockUtils().restoreBlocks(arena);
         Main.getPlugin().getPlayAgainHashMap().put(arena,new PlayAgain(arena,kit,null,null));
     }
 
@@ -107,8 +108,7 @@ public class GameManager {
             for (PotionEffect effect : player.getActivePotionEffects())
                 player.removePotionEffect(effect.getType());
         }
-        BlockUtils.restoreBlocks(arena);
-        Main.getPlugin().getArenaManager().removeEntitiesInArena(arena);
+        Main.getPlugin().getBlockUtils().restoreBlocks(arena);
         Main.getPlugin().getPlayAgainHashMap().put(arena,new PlayAgain(arena,kit,null,null));
     }
 
@@ -143,8 +143,7 @@ public class GameManager {
     public void endAllDuelsWhenClosing(){
         for(Arena arena : Main.getPlugin().getArenaManagerHashMap().values()){
             if(arena.getGameState() != GameState.WAITING || arena.getGameState() != GameState.DISABLED){
-                BlockUtils.restoreBlocks(arena);
-                Main.getPlugin().getArenaManager().removeEntitiesInArena(arena);
+                Main.getPlugin().getBlockUtils().restoreBlocks(arena);
                 for(UUID uuid : arena.getPlayerInGame()){
                     Player player = Bukkit.getPlayer(uuid);
                     if(player == null) continue;
@@ -156,6 +155,7 @@ public class GameManager {
                     for (PotionEffect effect : player.getActivePotionEffects())
                         player.removePotionEffect(effect.getType());
                     Main.getPlugin().getPlayerSavesManager().loadPlayer(player);
+                    arena.setGameState(GameState.WAITING);
                 }
             }
         }
@@ -194,7 +194,7 @@ public class GameManager {
         return kits.get(random);
     }
 
-    public void regeneratePlayer(Player player){
+    public void regeneratePlayer(Player player) {
         player.setHealth(player.getMaxHealth());
         player.setFoodLevel(20);
     }

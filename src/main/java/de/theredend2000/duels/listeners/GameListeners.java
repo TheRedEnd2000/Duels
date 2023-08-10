@@ -5,6 +5,8 @@ import de.theredend2000.duels.arenas.Arena;
 import de.theredend2000.duels.extramanagers.SpecialsManager;
 import de.theredend2000.duels.game.GameState;
 import de.theredend2000.duels.kits.Kit;
+import de.theredend2000.duels.util.MessageKey;
+import de.theredend2000.duels.util.MessageManager;
 import net.minecraft.world.entity.projectile.FishingHook;
 import org.bukkit.*;
 import org.bukkit.advancement.Advancement;
@@ -17,6 +19,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.*;
 import org.bukkit.event.entity.*;
 import org.bukkit.event.player.*;
+import org.bukkit.event.server.PluginDisableEvent;
 import org.bukkit.util.Vector;
 
 import java.util.*;
@@ -24,10 +27,12 @@ import java.util.*;
 public class GameListeners implements Listener {
 
     private final HashMap<Block, Arena> blockList;
+    private MessageManager messageManager;
 
     public GameListeners(){
         blockList = new HashMap<>();
         Bukkit.getPluginManager().registerEvents(this,Main.getPlugin());
+        messageManager = Main.getPlugin().getMessageManager();
     }
 
     @EventHandler
@@ -43,7 +48,7 @@ public class GameListeners implements Listener {
                 blockList.put(event.getBlockPlaced(),arena);
             }else{
                 event.setCancelled(true);
-                player.sendMessage(Main.PREFIX+"§cYou cannot build out of the arena.");
+                player.sendMessage(messageManager.getMessage(MessageKey.CANNOT_BUILD_OUT_OF_ARENA));
             }
         }
     }
@@ -80,7 +85,7 @@ public class GameListeners implements Listener {
                     blockList.keySet().removeIf(block -> block.equals(event.getBlock()));
                 }else{
                     event.setCancelled(true);
-                    player.sendMessage(Main.PREFIX+"§cYou cannot break out of the arena.");
+                    player.sendMessage(messageManager.getMessage(MessageKey.CANNOT_BREAK_BLOCKS_OUTSIDE_ARENA));
                 }
             }else
                 event.setCancelled(true);
@@ -149,7 +154,6 @@ public class GameListeners implements Listener {
                     event.setCancelled(false);
                     return;
                 }
-
                 if (arena.getGameState().equals(GameState.STARTING)) {
                     event.setCancelled(true);
                 }
@@ -202,7 +206,7 @@ public class GameListeners implements Listener {
             Arena arena = Main.getPlugin().getArenaManager().getPlayerCurrentArena(player);
             event.setCancelled(true);
             if(!Main.getPlugin().getConfig().getBoolean("messages.player-chat-message.enabled")){
-                player.sendMessage(Main.PREFIX+"§cThe chat is disabled.");
+                player.sendMessage(messageManager.getMessage(MessageKey.CHAT_DISABLED));
                 return;
             }
             for(UUID uuid : arena.getPlayerInGame()){
@@ -216,30 +220,36 @@ public class GameListeners implements Listener {
 
     @EventHandler
     public void onExplode(BlockExplodeEvent event) {
-        List<Block> blocksToRemove = new ArrayList<>();
-        for (Block block : event.blockList()) {
-            if (!blockList.containsKey(block)) {
-                blocksToRemove.add(block);
+        if(Main.getPlugin().getArenaManager().isWithinArena(event.getBlock().getLocation())) {
+            List<Block> blocksToRemove = new ArrayList<>();
+            for (Block block : event.blockList()) {
+                if (!blockList.containsKey(block)) {
+                    blocksToRemove.add(block);
+                }
             }
+            event.blockList().removeAll(blocksToRemove);
         }
-        event.blockList().removeAll(blocksToRemove);
     }
 
     @EventHandler
     public void onExplodeEntity(EntityExplodeEvent event) {
-        List<Block> blocksToRemove = new ArrayList<>();
-        for (Block block : event.blockList()) {
-            if (!blockList.containsKey(block)) {
-                blocksToRemove.add(block);
+        if(Main.getPlugin().getArenaManager().isWithinArena(event.getLocation())) {
+            List<Block> blocksToRemove = new ArrayList<>();
+            for (Block block : event.blockList()) {
+                if (!blockList.containsKey(block)) {
+                    blocksToRemove.add(block);
+                }
             }
+            event.blockList().removeAll(blocksToRemove);
         }
-        event.blockList().removeAll(blocksToRemove);
     }
 
     @EventHandler
     public void onBlockIgnite(BlockIgniteEvent event) {
-        if (event.getCause() == BlockIgniteEvent.IgniteCause.EXPLOSION) {
-            event.setCancelled(true);
+        if(Main.getPlugin().getArenaManager().isWithinArena(event.getBlock().getLocation())) {
+            if (event.getCause() == BlockIgniteEvent.IgniteCause.EXPLOSION) {
+                event.setCancelled(true);
+            }
         }
     }
 
@@ -260,12 +270,20 @@ public class GameListeners implements Listener {
                 Kit kit = Main.getPlugin().getArenaKit().get(arena);
                 Main.getPlugin().getGameManager().winDuel(player,winner,arena,kit);
                 arena.setGameState(GameState.GAME_END);
-                winner.sendMessage(Main.PREFIX+"§e"+player.getDisplayName()+"§c left the game.");
+                winner.sendMessage(messageManager.getMessage(MessageKey.PLAYER_LEAVE_GAME).replaceAll("%player%",player.getDisplayName()));
             }
             if(arena.getGameState().equals(GameState.GAME_END)){
                 event.setQuitMessage(null);
                 Main.getPlugin().getGameManager().leaveDuel(player,arena);
             }
+        }
+    }
+
+    @EventHandler
+    public void onDisabled(PluginDisableEvent event){
+        if(event.getPlugin().equals(Main.getPlugin())){
+            Main.getPlugin().getGameManager().endAllDuelsWhenClosing();
+            Main.getPlugin().getArenaManager().saveAllArenas();
         }
     }
 
