@@ -1,3 +1,5 @@
+lang-version: 1
+
 # General
 only-players-error: "&cOnly players can use this command."
 duel-command-permission-error: "&cYou do not have the right permission to use this command."
@@ -90,8 +92,22 @@ chat-disabled: "&cThe Chat is disabled."
 
 # Game
 player-leave-game: "&e%player%&c left the game."
+cant-use-command: "&cYou can't use this command right now. Please wait until the game ends."
 
 
 # Arena Configuration
 arena-edit-action: "&7You have &asuccessfully &7set the &6%action% &7for the arena &e%arena%&7."
+
+
+# Play again
+opponent-already-left: "&cYour opponent has already left the duel."
+already-in-queue: "&cYou have already been queued."
+entered-rematch: "&aYou have successfully entered a rematch with %player%"
+entered-queue-against: "&aYou have been queue to rematch against %player%"
+challenged-to-rematch: "&6%player% &achallenged you to a rematch."
+
+# Queue
+leaves-queue: "&7You &cleft &7the queue for the arena &e%arena%"
+join-queue: "&7You &ajoined &7the queue for the arena &e%arena%"
+currently-in-queue: "&7You are currently in the &dqueue &7for the arena &e%arena%"
 

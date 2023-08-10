@@ -182,7 +182,7 @@ public class GameListeners implements Listener {
                 Kit kit = Main.getPlugin().getArenaKit().get(arena);
                 Main.getPlugin().getGameManager().winDuel(player,killer,arena,kit);
                 arena.setGameState(GameState.GAME_END);
-                blockList.entrySet().stream().filter(entry -> entry.getValue().equals(arena)).forEach(entry -> {entry.getKey().setType(Material.AIR);blockList.remove(entry.getKey());});
+                //blockList.entrySet().stream().filter(entry -> entry.getValue().equals(arena)).forEach(entry -> {entry.getKey().setType(Material.AIR);blockList.remove(entry.getKey());});
             }
         }
     }

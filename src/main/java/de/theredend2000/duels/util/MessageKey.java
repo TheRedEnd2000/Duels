@@ -69,7 +69,16 @@ public enum MessageKey {
     CANNOT_BREAK_BLOCKS_OUTSIDE_ARENA("cannot-break-blocks-outside-arena"),
     CHAT_DISABLED("chat-disabled"),
     PLAYER_LEAVE_GAME("player-leave-game"),
-    ARENA_EDIT_ACTION("arena-edit-action");
+    ARENA_EDIT_ACTION("arena-edit-action"),
+    CANT_USE_COMMAND("cant-use-command"),
+    OPPONENT_ALREADY_LEFT("opponent-already-left"),
+    ALREADY_IN_QUEUE("already-in-queue"),
+    ENTERED_REMATCH("entered-rematch"),
+    ENTERED_QUEUE_AGAINST("entered-queue-against"),
+    CHALLENGED_TO_REMATCH("challenged-to-rematch"),
+    LEAVES_QUEUE("leaves-queue"),
+    JOIN_QUEUE("join-queue"),
+    CURRENTLY_IN_QUEUE("currently-in-queue");
 
     private final String path;
 

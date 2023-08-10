@@ -5,6 +5,8 @@ import de.theredend2000.duels.arenas.Arena;
 import de.theredend2000.duels.arenas.PlayAgain;
 import de.theredend2000.duels.game.GameState;
 import de.theredend2000.duels.kits.Kit;
+import de.theredend2000.duels.util.MessageKey;
+import de.theredend2000.duels.util.MessageManager;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -16,8 +18,11 @@ import java.util.UUID;
 
 public class PlayerInteractWithDuelItems implements Listener {
 
+    private MessageManager messageManager;
+
     public PlayerInteractWithDuelItems(){
         Bukkit.getPluginManager().registerEvents(this, Main.getPlugin());
+        messageManager = Main.getPlugin().getMessageManager();
     }
 
     @EventHandler
@@ -37,12 +42,12 @@ public class PlayerInteractWithDuelItems implements Listener {
                             if (Main.getPlugin().getPlayAgainHashMap().containsKey(arena)) {
                                 PlayAgain playAgain = Main.getPlugin().getPlayAgainHashMap().get(arena);
                                 if(arena.getPlayerInGame().size() == 1){
-                                    player.sendMessage(Main.PREFIX+"§cYour opponent has already left the duel.");
+                                    player.sendMessage(messageManager.getMessage(MessageKey.OPPONENT_ALREADY_LEFT));
                                     return;
                                 }
                                 if (playAgain.getPlayer1() != null) {
                                     if (playAgain.getPlayer1().equals(player)) {
-                                        player.sendMessage(Main.PREFIX + "§cYou have already been queued.");
+                                        player.sendMessage(messageManager.getMessage(MessageKey.ALREADY_IN_QUEUE));
                                         return;
                                     }
 
@@ -53,20 +58,20 @@ public class PlayerInteractWithDuelItems implements Listener {
 
                                     Main.getPlugin().getGameManager().endDuelWithPlayAgain(arena);
                                     Main.getPlugin().getGameManager().duelPlayer(playAgain.getPlayer1(), playAgain.getPlayer2(), arena, kit);
-                                    playAgain.getPlayer1().sendMessage(Main.PREFIX + "§aYou have successfully entered a rematch with " + playAgain.getPlayer2().getDisplayName());
-                                    playAgain.getPlayer2().sendMessage(Main.PREFIX + "§aYou have successfully entered a rematch with " + playAgain.getPlayer1().getDisplayName());
+                                    playAgain.getPlayer1().sendMessage(messageManager.getMessage(MessageKey.ENTERED_REMATCH).replaceAll("%player%", playAgain.getPlayer2().getDisplayName()));
+                                    playAgain.getPlayer2().sendMessage(messageManager.getMessage(MessageKey.ENTERED_REMATCH).replaceAll("%player%", playAgain.getPlayer1().getDisplayName()));
                                     Main.getPlugin().getPlayAgainHashMap().remove(arena);
                                 } else {
                                     ArrayList<UUID> players = new ArrayList<>(arena.getPlayerInGame());
                                     players.remove(player.getUniqueId());
                                     Player getRealKiller = Bukkit.getPlayer(players.get(0));
                                     if(getRealKiller == null){
-                                        player.sendMessage(Main.PREFIX+"§cYour opponent has already left the duel.");
+                                        player.sendMessage(messageManager.getMessage(MessageKey.OPPONENT_ALREADY_LEFT));
                                         return;
                                     }
                                     playAgain.setPlayer1(player);
-                                    player.sendMessage(Main.PREFIX+"§aYou have been queue to rematch against "+getRealKiller.getDisplayName());
-                                    getRealKiller.sendMessage(Main.PREFIX+"§6"+player.getDisplayName()+" §achallenged you to a rematch.");
+                                    player.sendMessage(messageManager.getMessage(MessageKey.ENTERED_QUEUE_AGAINST).replaceAll("%player%", getRealKiller.getDisplayName()));
+                                    getRealKiller.sendMessage(messageManager.getMessage(MessageKey.CHALLENGED_TO_REMATCH).replaceAll("%player%", player.getDisplayName()));
                                 }
                             }
                             break;

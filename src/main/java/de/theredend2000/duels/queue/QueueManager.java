@@ -2,6 +2,8 @@ package de.theredend2000.duels.queue;
 
 import de.theredend2000.duels.Main;
 import de.theredend2000.duels.arenas.Arena;
+import de.theredend2000.duels.util.MessageKey;
+import de.theredend2000.duels.util.MessageManager;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
@@ -12,8 +14,11 @@ import java.util.HashMap;
 
 public class QueueManager {
 
+    private MessageManager messageManager;
+
     public QueueManager(){
         sendQueueMessage();
+        messageManager = Main.getPlugin().getMessageManager();
     }
 
     public boolean isInQueue(Player player) {
@@ -97,13 +102,13 @@ public class QueueManager {
     public void handelQueue(Player player,Arena arena){
         if (Main.getPlugin().getQueueManager().isInThatQueue(player, arena)) {
             Main.getPlugin().getQueueManager().removeFromQueue(player, arena);
-            player.sendMessage(Main.PREFIX + "§7You §cleft §7the queue for the arena §e" + arena.getName());
+            player.sendMessage(messageManager.getMessage(MessageKey.LEAVES_QUEUE).replaceAll("%arena%", arena.getName()));
         } else {
             if (!Main.getPlugin().getQueueManager().isInQueue(player)) {
                 Main.getPlugin().getQueueManager().addToQueue(player, arena);
-                player.sendMessage(Main.PREFIX + "§7You §ajoined §7the queue for the arena §e" + arena.getName());
+                player.sendMessage(messageManager.getMessage(MessageKey.JOIN_QUEUE).replaceAll("%arena%", arena.getName()));
             } else {
-                player.sendMessage(Main.PREFIX + "§cYou are already in a Queue.");
+                player.sendMessage(messageManager.getMessage(MessageKey.ALREADY_IN_QUEUE));
             }
         }
     }
@@ -118,10 +123,10 @@ public class QueueManager {
                     Player player2 = queue.getPlayer2();
 
                     if (player1 != null) {
-                        player1.spigot().sendMessage(ChatMessageType.ACTION_BAR,new TextComponent(Main.PREFIX+"§7You are currently in the §dqueue §7for the arena §e"+queue.getArena().getName()));
+                        player1.spigot().sendMessage(ChatMessageType.ACTION_BAR,new TextComponent(messageManager.getMessage(MessageKey.CURRENTLY_IN_QUEUE).replaceAll("%arena%",queue.getArena().getName())));
                     }
                     if (player2 != null) {
-                        player2.spigot().sendMessage(ChatMessageType.ACTION_BAR,new TextComponent(Main.PREFIX+"§7You are currently in the §dqueue §7for the arena §e"+queue.getArena().getName()));
+                        player2.spigot().sendMessage(ChatMessageType.ACTION_BAR,new TextComponent(messageManager.getMessage(MessageKey.CURRENTLY_IN_QUEUE).replaceAll("%arena%",queue.getArena().getName())));
                     }
                 }
             }

@@ -69,8 +69,8 @@ public class HelpManager {
 
     public static ItemStack createHelpBookPlayer(Player player){
         return BookUtil.writtenBook()
-                .author("SnowyCoder")
-                .title("The Test-ament")
+                .author("TheRedEnd2000")
+                .title("Duels Help")
                 .pages(
                         new BaseComponent[]{
                                 new TextComponent("\n\n\n\n\n          §9§lDUELS\n\n §3by XMC-Plugins v"+Main.getPlugin().getDescription().getVersion())

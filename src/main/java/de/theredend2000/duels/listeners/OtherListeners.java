@@ -2,6 +2,7 @@ package de.theredend2000.duels.listeners;
 
 import de.theredend2000.duels.Main;
 import de.theredend2000.duels.arenas.Arena;
+import de.theredend2000.duels.util.MessageKey;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -21,7 +22,7 @@ public class OtherListeners implements Listener {
         if(Main.getPlugin().getArenaManager().playerIsAlreadyInArena(player)){
             if (Main.getPlugin().getConfig().getStringList("lists.blacklisted-commands").contains(command)) {
                 event.setCancelled(true);
-                event.getPlayer().sendMessage(Main.PREFIX+"§cYou can't use this command right now. Please wait until the game ends.");
+                event.getPlayer().sendMessage(Main.getPlugin().getMessageManager().getMessage(MessageKey.CANT_USE_COMMAND));
             }
         }
     }

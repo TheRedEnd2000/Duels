@@ -77,31 +77,31 @@ public class InventoryClickListener implements Listener {
                                 break;
                             case "arena.edit.spawn2":
                                 arena.setSpawn2(player.getLocation());
-                                player.sendMessage(Main.PREFIX+"§7You have §asuccessfully §7set the §2Spawn 2 §7for the arena §e"+arena.getName()+"§7.");
+                                player.sendMessage(Main.getPlugin().getMessageManager().getMessage(MessageKey.ARENA_EDIT_ACTION).replaceAll("%action%","Spawn 2").replaceAll("%arena%",arena.getName()));
                                 Main.getPlugin().getArenaManager().updateArenas();
                                 player.closeInventory();
                                 break;
                             case "arena.edit.pos1":
                                 arena.setPos1(player.getLocation());
-                                player.sendMessage(Main.PREFIX+"§7You have §asuccessfully §7set the §2Position 1 §7for the arena §e"+arena.getName()+"§7.");
+                                player.sendMessage(Main.getPlugin().getMessageManager().getMessage(MessageKey.ARENA_EDIT_ACTION).replaceAll("%action%","Position 1").replaceAll("%arena%",arena.getName()));
                                 Main.getPlugin().getArenaManager().updateArenas();
                                 player.closeInventory();
                                 break;
                             case "arena.edit.pos2":
                                 arena.setPos2(player.getLocation());
-                                player.sendMessage(Main.PREFIX+"§7You have §asuccessfully §7set the §2Positon 2 §7for the arena §e"+arena.getName()+"§7.");
+                                player.sendMessage(Main.getPlugin().getMessageManager().getMessage(MessageKey.ARENA_EDIT_ACTION).replaceAll("%action%","Position 2").replaceAll("%arena%",arena.getName()));
                                 Main.getPlugin().getArenaManager().updateArenas();
                                 player.closeInventory();
                                 break;
                             case "arena.edit.lobby":
                                 arena.setLobbySpawn(player.getLocation());
-                                player.sendMessage(Main.PREFIX+"§7You have §asuccessfully §7set the §6lobby§7 for the arena §e"+arena.getName()+"§7.");
+                                player.sendMessage(Main.getPlugin().getMessageManager().getMessage(MessageKey.ARENA_EDIT_ACTION).replaceAll("%action%","Lobby").replaceAll("%arena%",arena.getName()));
                                 Main.getPlugin().getArenaManager().updateArenas();
                                 player.closeInventory();
                                 break;
                             case "arena.edit.end":
                                 arena.setEndSpawn(player.getLocation());
-                                player.sendMessage(Main.PREFIX+"§7You have §asuccessfully §7set the §6ending§7 for the arena §e"+arena.getName()+"§7.");
+                                player.sendMessage(Main.getPlugin().getMessageManager().getMessage(MessageKey.ARENA_EDIT_ACTION).replaceAll("%action%","Ending").replaceAll("%arena%",arena.getName()));
                                 Main.getPlugin().getArenaManager().updateArenas();
                                 player.closeInventory();
                                 break;

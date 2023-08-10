@@ -85,6 +85,7 @@ public final class Main extends JavaPlugin {
             arenaManager.loadAllArena();
             kitManager.loadAllKits();
             checkPlaceholderAPI();
+            sendCurrentLanguage();
         });
     }
 
@@ -116,6 +117,11 @@ public final class Main extends JavaPlugin {
             new PlaceholderExtension().register();
             Bukkit.getConsoleSender().sendMessage(Main.PREFIX+"§2§lAll placeholders successfully enabled.");
         }
+    }
+
+    private void sendCurrentLanguage(){
+        String lang = plugin.getConfig().getString("message-lang");
+        Bukkit.getConsoleSender().sendMessage(Main.PREFIX+"§7Language §6"+lang+" §7detected. File messages-"+lang+".yml loaded.");
     }
 
     private void initListeners(){
