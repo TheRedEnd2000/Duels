@@ -3,6 +3,7 @@ package de.theredend2000.duels;
 import de.theredend2000.duels.arenas.Arena;
 import de.theredend2000.duels.arenas.ArenaManager;
 import de.theredend2000.duels.arenas.PlayAgain;
+import de.theredend2000.duels.bstats.Metrics;
 import de.theredend2000.duels.commands.DuelCommand;
 import de.theredend2000.duels.commands.DuelsCommand;
 import de.theredend2000.duels.countdowns.ArenaDurationCountdown;
@@ -72,6 +73,7 @@ public final class Main extends JavaPlugin {
     @Override
     public void onEnable() {
         plugin = this;
+        Metrics metrics = new Metrics(this,	19494);
         Bukkit.getServer().getScheduler().runTask(Main.getPlugin(), () -> {
             Bukkit.getConsoleSender().sendMessage("\n");
             Bukkit.getConsoleSender().sendMessage("§6§lDUELS BY XMC-Plugins v" + getDescription().getVersion());
