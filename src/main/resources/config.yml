@@ -8,6 +8,7 @@ check-for-updates: true
 
 
 # Messages file language
+# Currently available: en [English] | de [Deutsch]
 message-lang: en
 
 game:
