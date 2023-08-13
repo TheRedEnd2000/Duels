@@ -44,13 +44,13 @@ public class QueueListMenu extends QueuePaginatedMenu {
             if (e.getCurrentItem().getItemMeta().getLocalizedName().equals(arena.getName())) {
                 if (Main.getPlugin().getQueueManager().isInThatQueue(p, arena)) {
                     Main.getPlugin().getQueueManager().removeFromQueue(p, arena);
-                    p.sendMessage(Main.PREFIX + "§7You §cleft §7the queue for the arena §e" + arena.getName());
+                    p.sendMessage(messageManager.getMessage(MessageKey.LEAVES_QUEUE).replaceAll("%arena%",arena.getName()));
                 } else {
                     if (!Main.getPlugin().getQueueManager().isInQueue(p)) {
                         Main.getPlugin().getQueueManager().addToQueue(p, arena);
-                        p.sendMessage(Main.PREFIX + "§7You §ajoined §7the queue for the arena §e" + arena.getName());
+                        p.sendMessage(messageManager.getMessage(MessageKey.JOIN_QUEUE).replaceAll("%arena%",arena.getName()));
                     } else {
-                        p.sendMessage(Main.PREFIX + "§cYou are already in a Queue.");
+                        p.sendMessage(messageManager.getMessage(MessageKey.ALREADY_IN_QUEUE).replaceAll("%arena%",arena.getName()));
                     }
                 }
             }

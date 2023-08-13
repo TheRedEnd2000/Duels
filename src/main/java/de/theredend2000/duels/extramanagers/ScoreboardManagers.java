@@ -56,7 +56,7 @@ public class ScoreboardManagers {
                                     objective.getScore("§7Opponent:").setScore(8);
                                     objective.getScore("§9  ➤ §a§l"+getDistance(player,getOpponent) +"m §9"+ getOpponent.getDisplayName()+" §4"+getHealthString(getOpponent.getHealth())).setScore(7);
                                     objective.getScore("§c").setScore(6);
-                                    objective.getScore("§7Kit").setScore(5);
+                                    objective.getScore("§7Kit:").setScore(5);
                                     objective.getScore("§6  ➤ " + Main.getPlugin().getArenaKit().get(arena).getName()).setScore(4);
                                     objective.getScore("§2").setScore(3);
                                     objective.getScore("§7Arena:").setScore(2);

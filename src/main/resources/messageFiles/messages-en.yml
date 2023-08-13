@@ -102,8 +102,8 @@ arena-edit-action: "&7You have &asuccessfully &7set the &6%action% &7for the are
 # Play again
 opponent-already-left: "&cYour opponent has already left the duel."
 already-in-queue: "&cYou have already been queued."
-entered-rematch: "&aYou have successfully entered a rematch with %player%"
-entered-queue-against: "&aYou have been queue to rematch against %player%"
+entered-rematch: "&aYou have successfully entered a rematch with %player%."
+entered-queue-against: "&aYou have been queue to rematch against %player%."
 challenged-to-rematch: "&6%player% &achallenged you to a rematch."
 
 # Queue

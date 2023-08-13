@@ -1,0 +1,113 @@
+lang-version: 1
+
+# General
+only-players-error: "&cDiesen Befehl können nur Spieler benutzen."
+duel-command-permission-error: "&cDu hast nicht die richtigen Berechtigungen für diesen Befehl."
+error: "§cEs ist ein Fehler aufgetreten."
+
+# COMMANDS
+banned-world-error: "&cDu kannst in dieser Welt nicht duellen."
+already-in-duel-error: "&cDu bist bereits in einem Duel."
+opponent-already-in-duel-error: "&e%opponent% &cist bereits ein einem Duel."
+no-arenas-available-with-permission: "&cEs ist keine Arena verfügbar. Du kannst eine mit &e/duels arena create <name>&c erstellen und mit &e/duels arena edit <name>&c bearbeiten."
+no-arenas-available: "&cEs ist keine Arena verfügbar."
+no-kits-available: "&cEs sind keine Kits verfügbar."
+no-kits-available-with-permission: "&cEs sind keine Kits verfügbar. Erstelle eins mit &e/duels kit create <name>&c."
+player-not-available: "&cDer Spieler ist nicht verfügbar."
+cannot-duel-yourself: "&cDu kannst dich nicht selber duellen."
+opponent-banned-world: "&c%opponent% ist in einer gebannten Welt."
+duel-request-sent: "&7Die Duel Anfrage an &e%opponent%&7 wurde gesendet."
+duel-request-denied: "&e%sender% &chat deinen Duel Anfrage abgelehnt."
+duel-request-expired: "&cDeine Duel Anfrage ist abgelaufen."
+duel-request-already-sent: "&cDu hast bereits eine Duel Anfrage an %opponent% gesendet."
+no-duel-request: "&cDu hast keine Duel Anfrage von %opponent% bekommen."
+opponent-already-in-duel: "&e%opponent% &cist bereits in einem Duel."
+arena-unavailable: "&cDie Arena ist nicht länger verfügbar. Bitte versuche es später erneuert."
+duel-request-denied-by-sender: "&7Du hast die Duel Anfrage von &e%opponent% &cabgelehnt&7."
+
+# Arena
+arena-created: "&7Die Arena &e%arena_name% &7wurde &aerfolgreich &2erstellt&7."
+arena-deleted: "&7Die Arena &e%arena_name% &7wurde &aerfolgreich &cgelöscht&7."
+arena-already-exist: "&cDie Arena &e%arena_name% &cgibt es bereits."
+arena-not-found: "&cEs gibt keine Arena mit diesem Name."
+arena-icon-set: "&7Das &2Icon &7für die Arena &e%arena_name% &7wurde zu &6%icon%&7 gesetzt."
+arena-icon-fail: "&cBitte halte das Item das du als Icon willst in der Hand."
+type-name-content: "&c%type%-Namen können nur folgendes enthalten: &e'Buchstaben (a) | Nummern (1) | Unterstriche (_)  | Bindestriche (-)'"
+no-arenas-found: "&cThere are no arenas."
+
+# Kit
+kit-saved: "&7Dein aktuelles Inventar wurde &aerfolgreich &7als Kit &e%kit_name% &2gespeichert&7."
+kit-deleted: "&7Das Kit &e%kit_name% &7würde &aerfolgreich &cgelöscht&7."
+kit-already-exist: "&cDieses Kit existiert bereits."
+kit-not-found: "&cDieses Kit gibt es nicht."
+kit-rename: "&7Das Kit &e%kit_old% &7wurde &aerfolgreich &7zu &6%kit_new% &2umbenannt&7."
+kit-rename-exist-new: "&cEs gibt bereits eine Kit mit dem Namen %kit_new%."
+kit-load: "&7Das Kit &e%kit_name% &7wurde &aerfolgreich &2geladen&7."
+kit-edit: "&7Das Kit &e%kit_name% &7wurde &aerfolgreich &2bearbeitet&7."
+kit-icon-set: "&7Das &2Icon &7für das Kit &e%kit_name% &7wurde zu &6%icon% &7geändert."
+kit-icon-fail: "&cBitte halte das Item das du als Icon willst in der Hand."
+no-kits-found: "&cEs gibt aktuell keine Kits."
+
+# Reload
+reload-file-success: "&7Das &3%file%.yml File &7wurde &aerfolgreich &ereloaded&7."
+
+# Stats
+player-not-exist: "&cDieser Spieler existiert nicht."
+option-invadable: "&cDeine Option ist ungültig. Nutze eine von folgenden Optionen: &e rating, wins, loses, kills, deaths"
+cant-use-option-here: "&cDu kannst diese Option hier nicht benutzen."
+use-number-as-score: "&cBitte nutze eine Nummer als Score."
+get-stats-from-player: "&5&l STATISTIKEN VON %player%"
+add-stats-to-player: "&7Du hast &2erfolgreich &7bei &6%player% &e%score% %option% &ahinzugefügt&7."
+remove-stats-from-player: "&7Du hast &2erfolgreich &7bei &6%player% &e%score% %option%&7 &centfernt&7."
+set-stats-of-player: "&7Du hast &2erfolgreich &6%player%'s &e%option% &7zu &e%score% &9gesetzt&7."
+reset-stats-of-player: "&7Du hast &2erfolgreich &6%player%'s &e%option% &4zurückgesetzt&7."
+
+# Menus
+opponent-no-longer-available: "§cDer Spieler %opponent% ist nicht länger verfügbar."
+already-on-first-page: "§7Du bist bereits auf der ersten Seite."
+already-on-last-page: "§7Du bist bereits auf der letzten Seite."
+failed-to-read-text: "§cDie Eingabe ist ungültig."
+
+# COUNTDOWNS
+
+# Start
+battle-start-title: "&6&l%seconds%"
+battle-start-subtitle: "&bMacht euch bereit."
+battle-started-title: "&2&lKämpft"
+battle-started-subtitle: "&bTöte deinen Gegner."
+battle-start-message: "&7Das Battle beginnt in &e%seconds% Sekunde(n)&7."
+battle-started-message: "&6Battle gestartet! &4Töte deinen Gegner."
+# End
+battle-end-title: "&c&l%seconds%"
+battle-end-subtitle: "&7Bis das Battle endet."
+battle-end-message: "&7Das Battle endet in &e%seconds% Sekunde(n)&7."
+battle-ended-message: "&cDas Battle ist vorbei."
+
+
+# Listeners
+cannot-build-out-of-arena: "&cDu kannst nicht aus der Arena bauen."
+cannot-break-blocks-outside-arena: "&cDu kannst keine Blöcke außerhalb der Arena abbauen."
+chat-disabled: "&cDer Chat wurde deaktiviert."
+
+
+# Game
+player-leave-game: "&e%player%&c hat das Spiel verlassen."
+cant-use-command: "&cDu kannst diesen Command aktuell nicht benutzen. Bitte warte bis das Battle vorbei ist."
+
+
+# Arena Configuration
+arena-edit-action: "&7YDu hast &asuccessfully &7die &6%action% &7für die Arena &e%arena%&7 gesetzt."
+
+
+# Play again
+opponent-already-left: "&cDein Gegner hat das Battle bereits verlassen."
+already-in-queue: "&cDu bist schon in der Queue."
+entered-rematch: "&aDu hast erfolgreich ein Rematch mit %player% gestartet."
+entered-queue-against: "&aDu wurdest in die Queue für den Spieler %player% gesetzt."
+challenged-to-rematch: "&6%player% &ahat dich zu einem Rematch aufgefordert."
+
+# Queue
+leaves-queue: "&7Du hast die Queue für die Arena &e%arena% &cverlassen&7."
+join-queue: "&7Du hast die Queue für die Arena &e%arena% &abetreten&7."
+currently-in-queue: "&7Du bist aktuell in der &dQueue &7für die Arena &e%arena%"
+
